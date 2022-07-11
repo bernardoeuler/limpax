@@ -193,18 +193,98 @@ const theme = extendTheme({
       variants: {
         outline: {
           bg: "white",
+        },
+
+        social: {
+          size: "medium",
+          _text: {
+            fontSize: "16"
+          }
         }
       },
 
       sizes: {
         large: {
+          w: "100%",
           py: "20px",
+          _text: {
+            fontSize: 18
+          }
+        },
+
+        medium: {
+          w: "100%",
+          py: "16px",
           _text: {
             fontSize: 18
           }
         }
       }
-    }
+    },
+
+    FormControlLabel: {
+      defaultProps: {
+        fontSize: 14,
+
+        _light: {
+          _text: {
+            color: "neutral.600",
+          }
+        },
+
+        _dark: {
+          _text: {
+            color: "neutral.300",
+          }
+        },
+      },
+    },
+
+    FormControlErrorMessage: {
+      defaultProps: {
+        fontSize: 14,
+
+        _text: {
+          color: "danger.500",
+        }
+      },
+    },
+
+    Input: {
+      defaultProps: {
+        size: "normal",
+
+        borderWidth: 0,
+
+        rounded: 4,
+
+        _light: {
+          bg: 'neutral.50',
+          color: "neutral.900",
+          placeholderTextColor: "neutral.500",
+          _focus: {
+            bg: 'neutral.50'
+          }
+        },
+
+        _dark: {
+          bg: 'neutral.800',
+          color: "white",
+          placeholderTextColor: "neutral.400",
+          _focus: {
+            bg: 'neutral.800'
+          }
+        },
+      },
+
+      sizes: {
+        normal: {
+          fontSize: 16,
+          py: 3,
+          px: 4,
+        }
+      }
+    },
   }
 })
 
