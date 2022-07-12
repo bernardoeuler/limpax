@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from 'react'
 
 import {
   NativeBaseProvider,
@@ -11,10 +11,13 @@ import {
   HStack,
   VStack,
   Checkbox,
-  Divider
+  Divider,
+  Icon
 } from "native-base"
 
 import { SafeAreaView, StatusBar } from "react-native"
+
+import { MaterialIcons } from '@expo/vector-icons'
 
 import theme from "../../config/theme"
 
@@ -23,6 +26,8 @@ import styles from "../../styles/global"
 import Input from "../../components/Input"
 
 function Register({ navigation }) {
+  const [passwordVisible, setPasswordVisible] = useState(false)
+  
   return (
     <NativeBaseProvider theme={theme}>
       <SafeAreaView style={{...styles.SafeAreaView, alignItems: "center", justifyContent: "flex-start", paddingHorizontal: 24}}>
@@ -34,10 +39,10 @@ function Register({ navigation }) {
 
         <Box mt={6} w="100%">
           <VStack space={4}>
-            <Input placeholder="Nome completo" />
-            <Input placeholder="Email" />
-            <Input placeholder="Senha" type="password" />
-            <Input placeholder="Confirmar senha" type="password" />
+            <Input placeholder="Nome completo" InputLeftElement={<Icon as={<MaterialIcons name="person" />} ml={4} size={7} color="neutral.500" />} />
+            <Input placeholder="Email" InputLeftElement={<Icon as={<MaterialIcons name="email" />} ml={4} size={7} color="neutral.500" />} />
+            <Input placeholder="Senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
+            <Input placeholder="Confirmar senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
           </VStack>
 
           <NBButton mt={4} size="medium">Criar conta</NBButton>
