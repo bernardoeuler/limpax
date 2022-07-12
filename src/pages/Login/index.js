@@ -8,9 +8,7 @@ import {
   IconButton,
   Heading,
   Box,
-  HStack,
-  Divider,
-  KeyboardAvoidingView
+  HStack
 } from "native-base"
 
 import { SafeAreaView } from 'react-native'
@@ -37,7 +35,6 @@ function Login({ navigation }) {
             <Input placeholder="Senha" label="Senha" type="password"/>
           </Box>
 
-
           <Text mt={2} alignSelf="flex-end" size="small" fontWeight="medium" onPress={() => {navigation.navigate("ForgotPassword")}}>Esqueceu a senha?</Text>
 
           <NBButton mt={6} size="medium">Entrar</NBButton>
@@ -48,10 +45,6 @@ function Login({ navigation }) {
             <IconButton w="49%" borderWidth="1px" borderColor="neutral.100" _pressed={{bg: "neutral.50"}} icon={<NBImage source={require("../../assets/images/logo-google.png")} size={5} alt="google" />} />
             <IconButton w="49%" bg="#1976D2" _pressed={{bg: "#1666B6"}} icon={<NBImage source={require("../../assets/images/logo-facebook.png")} size={5} alt="google" />} />
           </HStack>
-
-          {/* <NBButton _pressed={{bg: "neutral.50", _text: {color: "neutral.700"}}} bg="white" size="medium" py="15px" borderWidth="1px" borderColor="neutral.300" _text={{fontSize: "16", fontWeight: "regular", color: "neutral.700"}} startIcon={<NBImage source={require("../../assets/images/logo-google.png")} size={5} alt="google" />}>Entrar com Google</NBButton> */}
-          
-          {/* <NBButton mt={2} bg="#1976D2" size="medium" _text={{fontSize: "16", fontWeight: "regular"}} _pressed={{bg: "#1666B6"}} startIcon={<NBImage source={require("../../assets/images/logo-facebook.png")} size={5} alt="facebook" />}>Entrar com Facebook</NBButton> */}
         </Box>
 
         <Text mt={4} size="small">Ainda não tem conta? <Text color="primary.500" fontWeight="bold" onPress={() => {navigation.navigate("Register")}}>Cadastre-se</Text></Text>
