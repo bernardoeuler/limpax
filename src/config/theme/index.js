@@ -173,7 +173,6 @@ const theme = extendTheme({
           color: "white",
           fontWeight: "bold",
         },
-        
       },
 
       defaultProps: {
@@ -181,6 +180,11 @@ const theme = extendTheme({
         borderColor: "primary.500",
         borderRadius: 8,
         size: "large",
+
+        _text: {
+          color: "white",
+          fontWeight: "bold",
+        },
         
         _pressed: {
           bg: "primary.600",
@@ -222,6 +226,7 @@ const theme = extendTheme({
         _light: {
           _text: {
             color: "neutral.600",
+            fontWeight: "semibold"
           }
         },
 
@@ -273,7 +278,7 @@ const theme = extendTheme({
       sizes: {
         normal: {
           fontSize: 16,
-          py: 2,
+          py: 3,
           px: 4,
         }
       }

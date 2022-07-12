@@ -11,7 +11,7 @@ function Input(props) {
   
   return (
       <FormControl isInvalid>
-        <FormControl.Label>{label}</FormControl.Label>
+        {/* <FormControl.Label>{label}</FormControl.Label> */}
         <NBInput 
           placeholder={placeholder}
           type={type}
