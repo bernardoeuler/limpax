@@ -7,14 +7,16 @@ import {
 } from "native-base"
 
 function Input(props) {
-  const { label, placeholder, type, errorMessage } = props
+  const { label, placeholder, type, errorMessage, InputLeftElement, InputRightElement } = props
+  const inputProps = { label, placeholder, type, InputLeftElement, InputRightElement }
   
   return (
       <FormControl isInvalid>
-        {/* <FormControl.Label>{label}</FormControl.Label> */}
+        { label && <FormControl.Label>{label}</FormControl.Label> }
         <NBInput 
-          placeholder={placeholder}
-          type={type}
+          // placeholder={placeholder}
+          // type={type}
+          {...inputProps}
         />
         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="14px" />}>{errorMessage}</FormControl.ErrorMessage>
       </FormControl>
