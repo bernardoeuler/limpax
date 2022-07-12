@@ -193,13 +193,6 @@ const theme = extendTheme({
       variants: {
         outline: {
           bg: "white",
-        },
-
-        social: {
-          size: "medium",
-          _text: {
-            fontSize: "16"
-          }
         }
       },
 
@@ -214,7 +207,7 @@ const theme = extendTheme({
 
         medium: {
           w: "100%",
-          py: "16px",
+          py: "12px",
           _text: {
             fontSize: 18
           }
@@ -280,7 +273,7 @@ const theme = extendTheme({
       sizes: {
         normal: {
           fontSize: 16,
-          py: 3,
+          py: 2,
           px: 4,
         }
       }
