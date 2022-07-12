@@ -222,6 +222,7 @@ const theme = extendTheme({
         _light: {
           _text: {
             color: "neutral.600",
+            fontWeight: "semibold"
           }
         },
 
