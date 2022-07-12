@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 import {
   NativeBaseProvider,
@@ -10,10 +10,11 @@ import {
   Box,
   HStack,
   VStack,
-  Checkbox
+  Checkbox,
+  Divider
 } from "native-base"
 
-import { SafeAreaView, StatusBar } from 'react-native'
+import { SafeAreaView, StatusBar } from "react-native"
 
 import theme from "../../config/theme"
 
@@ -24,27 +25,34 @@ import Input from "../../components/Input"
 function Register({ navigation }) {
   return (
     <NativeBaseProvider theme={theme}>
-      <SafeAreaView style={{...styles.SafeAreaView, alignItems: "center", justifyContent: "center", paddingHorizontal: 24}}>
+      <SafeAreaView style={{...styles.SafeAreaView, alignItems: "center", justifyContent: "flex-start", paddingHorizontal: 24}}>
         <StatusBar barStyle="dark-content" backgroundColor="white"/>
 
-        <Heading size="h3" alignSelf="flex-start">Crie uma conta</Heading>
+        <NBImage mt={10} source={require("../../assets/images/logo.png")} alt="Logo" size={16} />
+
+        <Heading mt={6} size="h3" alignSelf="flex-start">Crie uma conta</Heading>
 
         <Box mt={6} w="100%">
-          <VStack space={3}>
-            <Input placeholder="Digite seu nome" label="Nome completo"/>
-            <Input placeholder="Digite seu email" label="Email"/>
-            <Input placeholder="Digite sua senha" label="Senha" type="password"/>
+          <VStack space={4}>
+            <Input placeholder="Nome completo" />
+            <Input placeholder="Email" />
+            <Input placeholder="Senha" type="password" />
+            <Input placeholder="Confirmar senha" type="password" />
           </VStack>
 
-          <HStack space={2} mt={4}>
+          <NBButton mt={4} size="medium">Criar conta</NBButton>
+
+          <HStack mt={4} space={2}>
             <Checkbox value="terms" accessibilityLabel="I accept the user terms" />
             <Text size="small">Eu aceito os termos do usuário</Text>
           </HStack>
 
-          <NBButton mt={6} size="medium">Criar conta</NBButton>
-
-          <Text my={4} alignSelf="center" size="normal" fontWeight="semibold" color="neutral.500">OU</Text>
-
+          <HStack my={8} space={1} alignItems="center" justifyContent="center">
+            <Divider w={8} h={0.5} />
+            <Text alignSelf="center" size="small" fontWeight="semibold" color="neutral.300">OU</Text>
+            <Divider w={8} h={0.5} />
+          </HStack>
+          
           <HStack justifyContent="space-between">
             <IconButton w="49%" borderWidth="1px" borderColor="neutral.100" _pressed={{bg: "neutral.50"}} icon={<NBImage source={require("../../assets/images/logo-google.png")} size={5} alt="google" />} />
             <IconButton w="49%" bg="#1976D2" _pressed={{bg: "#1666B6"}} icon={<NBImage source={require("../../assets/images/logo-facebook.png")} size={5} alt="google" />} />
