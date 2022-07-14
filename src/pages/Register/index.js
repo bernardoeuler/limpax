@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import {
   NativeBaseProvider,
   Heading,
@@ -14,19 +13,99 @@ import {
   Divider,
   Icon
 } from "native-base"
-
 import { SafeAreaView, StatusBar } from "react-native"
-
 import { MaterialIcons } from '@expo/vector-icons'
-
 import theme from "../../config/theme"
-
 import styles from "../../styles/global"
-
 import Input from "../../components/Input"
+import { auth, firestore } from "../../config/firebase"
+import { createUserWithEmailAndPassword } from "firebase/auth"
 
 function Register({ navigation }) {
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [passwordConfirmation, setPasswordConfirmation] = useState("")
+
+  const [nameError, setNameError] = useState("")
+  const [emailError, setEmailError] = useState("")
+  const [passwordError, setPasswordError] = useState("")
+  const [passwordConfirmationError, setPasswordConfirmationError] = useState("")
+  const [isInvalid, setIsInvalid] = useState(false)
+
   const [passwordVisible, setPasswordVisible] = useState(false)
+
+  async function handleRegister(name, email, password, passwordConfirmation) {
+    const userData = [name, email, password, passwordConfirmation]
+  
+    if (validate(userData)) return
+  
+    try {
+      const { user } = await createUserWithEmailAndPassword(auth, email, password)
+    }
+  
+    catch (err) {
+      handleError(err.code)
+    }
+  
+    function validate(userData) {
+      const formattedUserData = userData.map((data) => data.trim())
+      const [formattedName, formattedEmail, formattedPassword, formattedPasswordConfirmation] = formattedUserData
+      console.log(formattedPasswordConfirmation)
+
+  
+      // Validate name
+      formattedName === "" ? 
+        setIsInvalid(handleError("missing-name")) :
+        setNameError("")
+
+      // Validate email
+      formattedEmail === "" ?
+        setIsInvalid(handleError("missing-email")) :
+        setEmailError("")
+  
+      // Validate password
+      formattedPassword === "" ?
+        setIsInvalid(handleError("missing-password")) :
+        setPasswordError("")
+
+      // Validate confirm password
+      if (formattedPasswordConfirmation === "") {
+        setIsInvalid(handleError("missing-password-confirmation"))
+      }
+
+      else if (formattedPassword !== formattedPasswordConfirmation) {
+        setIsInvalid(handleError("passwords-does-not-match"))
+      } 
+      
+      else {
+        setPasswordConfirmationError("")
+      } 
+
+      return isInvalid
+    }
+  }
+
+  function handleError(code) {
+    switch (code) {
+      case "missing-name":
+        setNameError("O seu nome é obrigatório")
+        break
+      case "missing-email":
+        setEmailError("O email é obrigatório")
+        break
+      case "missing-password":
+        setPasswordError("Você precisa criar uma senha")
+        break
+      case "missing-password-confirmation":
+        setPasswordConfirmationError("Você precisa confimar a senha")
+        break
+      case "passwords-does-not-match":
+        setPasswordConfirmationError("As senhas devem ser iguais")
+        break
+    }
+    return true
+  }
   
   return (
     <NativeBaseProvider theme={theme}>
@@ -39,13 +118,13 @@ function Register({ navigation }) {
 
         <Box mt={6} w="100%">
           <VStack space={4}>
-            <Input placeholder="Nome completo" InputLeftElement={<Icon as={<MaterialIcons name="person" />} ml={4} size={7} color="neutral.500" />} />
-            <Input placeholder="Email" InputLeftElement={<Icon as={<MaterialIcons name="email" />} ml={4} size={7} color="neutral.500" />} />
-            <Input placeholder="Senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
-            <Input placeholder="Confirmar senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
+            <Input errorMessage={nameError} onChangeText={(text) => setName(text)} placeholder="Nome completo" InputLeftElement={<Icon as={<MaterialIcons name="person" />} ml={4} size={7} color="neutral.500" />} />
+            <Input errorMessage={emailError} onChangeText={(text) => setEmail(text)} placeholder="Email" InputLeftElement={<Icon as={<MaterialIcons name="email" />} ml={4} size={7} color="neutral.500" />} />
+            <Input errorMessage={passwordError} onChangeText={(text) => setPassword(text)} placeholder="Senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
+            <Input errorMessage={passwordConfirmationError} onChangeText={(text) => setPasswordConfirmation(text)} placeholder="Confirmar senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
           </VStack>
 
-          <NBButton mt={4} size="medium">Criar conta</NBButton>
+          <NBButton onPress={() => handleRegister(name, email, password, passwordConfirmation)} mt={4} size="medium">Criar conta</NBButton>
 
           <HStack mt={4} space={2}>
             <Checkbox value="terms" accessibilityLabel="I accept the user terms" />
