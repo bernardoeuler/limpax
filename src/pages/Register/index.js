@@ -21,6 +21,7 @@ import Input from "../../components/Input"
 import { auth, firestore } from "../../config/firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import validateEmail from '../../functions/validateEmail'
+import validatePassword from '../../functions/validatePassword'
 
 function Register({ navigation }) {
   const [name, setName] = useState("")
@@ -74,8 +75,8 @@ function Register({ navigation }) {
       } 
 
       // Validate password
-      formattedPassword.length < 1 ?
-        isInvalid = handleError("missing-password") :
+      validatePassword(formattedPassword) ?
+        isInvalid = handleError(validatePassword(formattedPassword)) :
         setPasswordError("")
 
       // Validate confirm password
@@ -110,6 +111,9 @@ function Register({ navigation }) {
       case "missing-password":
         setPasswordError("Você precisa criar uma senha")
         break
+      case "short-password":
+        setPasswordError("A senha precisa ter no mínimo 6 dígitos")
+        break
       case "missing-password-confirmation":
         setPasswordConfirmationError("Você precisa confimar a senha")
         break
@@ -123,9 +127,6 @@ function Register({ navigation }) {
         break
       case "auth/weak-password":
         setPasswordError("A senha deve conter no mínimo 6 caracteres")
-        break
-      case "passwords-does-not-match":
-        setPasswordConfirmationError("As senhas devem ser iguais")
         break
     }
 
