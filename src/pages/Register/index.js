@@ -51,7 +51,6 @@ function Register({ navigation }) {
     function validate(userData) {
       const formattedUserData = userData.map((data) => data.trim())
       const [formattedName, formattedEmail, formattedPassword, formattedPasswordConfirmation] = formattedUserData
-      console.log(formattedPasswordConfirmation)
 
   
       // Validate name
@@ -72,7 +71,7 @@ function Register({ navigation }) {
       // Validate confirm password
       if (formattedPasswordConfirmation === "") {
         setIsInvalid(handleError("missing-password-confirmation"))
-      }
+      } 
 
       else if (formattedPassword !== formattedPasswordConfirmation) {
         setIsInvalid(handleError("passwords-does-not-match"))
