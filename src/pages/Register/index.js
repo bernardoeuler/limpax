@@ -20,6 +20,7 @@ import styles from "../../styles/global"
 import Input from "../../components/Input"
 import { auth, firestore } from "../../config/firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth"
+import validateEmail from '../../functions/validateEmail'
 
 function Register({ navigation }) {
   const [name, setName] = useState("")
@@ -31,7 +32,6 @@ function Register({ navigation }) {
   const [emailError, setEmailError] = useState("")
   const [passwordError, setPasswordError] = useState("")
   const [passwordConfirmationError, setPasswordConfirmationError] = useState("")
-  const [isInvalid, setIsInvalid] = useState(false)
 
   const [passwordVisible, setPasswordVisible] = useState(false)
 
@@ -39,42 +39,52 @@ function Register({ navigation }) {
     const userData = [name, email, password, passwordConfirmation]
   
     if (validate(userData)) return
-  
+
     try {
+      console.log("authenticate")
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
     }
   
     catch (err) {
+      console.log("authentication error")
       handleError(err.code)
     }
   
     function validate(userData) {
       const formattedUserData = userData.map((data) => data.trim())
       const [formattedName, formattedEmail, formattedPassword, formattedPasswordConfirmation] = formattedUserData
-
+      let isInvalid = false
   
       // Validate name
-      formattedName === "" ? 
-        setIsInvalid(handleError("missing-name")) :
+      formattedName.length < 1 ? 
+        isInvalid = handleError("missing-name") :
         setNameError("")
 
       // Validate email
-      formattedEmail === "" ?
-        setIsInvalid(handleError("missing-email")) :
+      if (formattedEmail.length < 1) {
+        isInvalid = handleError("missing-email")
+      }
+
+      else if (validateEmail(formattedEmail)) {
+        isInvalid = handleError("invalid-email")
+      }
+      
+      else {
         setEmailError("")
-  
+      } 
+
       // Validate password
-      formattedPassword === "" ?
-        setIsInvalid(handleError("missing-password")) :
+      formattedPassword.length < 1 ?
+        isInvalid = handleError("missing-password") :
         setPasswordError("")
 
       // Validate confirm password
-      if (formattedPasswordConfirmation === "") {
-        setIsInvalid(handleError("missing-password-confirmation"))
+      if (formattedPasswordConfirmation.length < 1) {
+        isInvalid = handleError("missing-password-confirmation")
       } 
 
       else if (formattedPassword !== formattedPasswordConfirmation) {
-        setIsInvalid(handleError("passwords-does-not-match"))
+        isInvalid = handleError("passwords-does-not-match")
       } 
       
       else {
@@ -86,12 +96,16 @@ function Register({ navigation }) {
   }
 
   function handleError(code) {
+    console.log(code)
     switch (code) {
       case "missing-name":
-        setNameError("O seu nome é obrigatório")
+        setNameError("Você precisa inserir um nome")
         break
       case "missing-email":
-        setEmailError("O email é obrigatório")
+        setEmailError("Você precisa inserir um email")
+        break
+      case "invalid-email":
+        setEmailError("Digite um email válido")
         break
       case "missing-password":
         setPasswordError("Você precisa criar uma senha")
@@ -102,7 +116,19 @@ function Register({ navigation }) {
       case "passwords-does-not-match":
         setPasswordConfirmationError("As senhas devem ser iguais")
         break
+      
+      // Firebase errors
+      case "auth/invalid-email":
+        setEmailError("Digite um email válido")
+        break
+      case "auth/weak-password":
+        setPasswordError("A senha deve conter no mínimo 6 caracteres")
+        break
+      case "passwords-does-not-match":
+        setPasswordConfirmationError("As senhas devem ser iguais")
+        break
     }
+
     return true
   }
   
