@@ -8,6 +8,10 @@ export default function validatePassword(password) {
   if (password.length < 1) {
     errorCode = "missing-password"
   }
+
+  if (password.substring(0, password.length).search(" ") !== -1) {
+    errorCode = "white-space-inside-password"
+  }
   
   return errorCode
 }

@@ -123,6 +123,9 @@ function Register({ navigation }) {
       case "short-password":
         setPasswordError("A senha precisa ter no mínimo 6 dígitos")
         break
+      case "white-space-inside-password":
+        setPasswordError("A senha não pode conter espaços em branco")
+        break  
       case "missing-password-confirmation":
         setPasswordConfirmationError("Você precisa confimar a senha")
         break
