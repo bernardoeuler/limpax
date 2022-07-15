@@ -19,10 +19,11 @@ import theme from "../../config/theme"
 import styles from "../../styles/global"
 import Input from "../../components/Input"
 import FormErrorMessage from "../../components/FormErrorMessage"
-import { auth, firestore } from "../../config/firebase"
+import { auth } from "../../config/firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import validateEmail from '../../functions/validateEmail'
 import validatePassword from '../../functions/validatePassword'
+import storeData from "../../functions/storeData"
 
 function Register({ navigation }) {
   const [name, setName] = useState("")
@@ -45,10 +46,12 @@ function Register({ navigation }) {
     try {
       if (validate(userData)) return
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
+      const userDataObject = { name, email, password }
+      storeData(userDataObject, "users")
     }
   
     catch (err) {
-      console.log("authentication error")
+      console.log("Authentication error: ", err)
       handleError(err.code)
     }
   
@@ -135,7 +138,7 @@ function Register({ navigation }) {
         setEmailError("Digite um email válido")
         break
       case "auth/weak-password":
-        setPasswordError("A senha deve conter no mínimo 6 caracteres")
+        setPasswordError("A senha precisa ter no mínimo 6 dígitos")
         break
     }
 
