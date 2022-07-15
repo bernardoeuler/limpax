@@ -18,6 +18,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import theme from "../../config/theme"
 import styles from "../../styles/global"
 import Input from "../../components/Input"
+import FormErrorMessage from "../../components/FormErrorMessage"
 import { auth, firestore } from "../../config/firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import validateEmail from '../../functions/validateEmail'
@@ -28,21 +29,21 @@ function Register({ navigation }) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
+  const [userTermsAccepted, setUserTermsAccepted] = useState(false)
 
   const [nameError, setNameError] = useState("")
   const [emailError, setEmailError] = useState("")
   const [passwordError, setPasswordError] = useState("")
   const [passwordConfirmationError, setPasswordConfirmationError] = useState("")
+  const [userTermsError, setUserTermsError] = useState("")
 
   const [passwordVisible, setPasswordVisible] = useState(false)
 
-  async function handleRegister(name, email, password, passwordConfirmation) {
-    const userData = [name, email, password, passwordConfirmation]
+  async function handleRegister(name, email, password, passwordConfirmation, userTermsAccepted) {
+    const userData = [name, email, password, passwordConfirmation, userTermsAccepted]
   
-    if (validate(userData)) return
-
     try {
-      console.log("authenticate")
+      if (validate(userData)) return
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
     }
   
@@ -52,8 +53,8 @@ function Register({ navigation }) {
     }
   
     function validate(userData) {
-      const formattedUserData = userData.map((data) => data.trim())
-      const [formattedName, formattedEmail, formattedPassword, formattedPasswordConfirmation] = formattedUserData
+      const formattedUserData = userData.map((data) => typeof data === "string" ? data.trim() : data)
+      const [formattedName, formattedEmail, formattedPassword, formattedPasswordConfirmation, newUserTermsAccepted] = formattedUserData
       let isInvalid = false
   
       // Validate name
@@ -92,6 +93,11 @@ function Register({ navigation }) {
         setPasswordConfirmationError("")
       } 
 
+      // Validate user terms checkbox
+      newUserTermsAccepted ? 
+        setUserTermsError("") :
+        isInvalid = handleError("user-terms-not-accepted")
+
       return isInvalid
     }
   }
@@ -120,6 +126,9 @@ function Register({ navigation }) {
       case "passwords-does-not-match":
         setPasswordConfirmationError("As senhas devem ser iguais")
         break
+      case "user-terms-not-accepted":
+        setUserTermsError("Para continuar, você deve aceitar os termos do usuário")
+        break       
       
       // Firebase errors
       case "auth/invalid-email":
@@ -150,12 +159,13 @@ function Register({ navigation }) {
             <Input errorMessage={passwordConfirmationError} onChangeText={(text) => setPasswordConfirmation(text)} placeholder="Confirmar senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
           </VStack>
 
-          <NBButton onPress={() => handleRegister(name, email, password, passwordConfirmation)} mt={4} size="medium">Criar conta</NBButton>
+          <NBButton onPress={() => handleRegister(name, email, password, passwordConfirmation, userTermsAccepted)} mt={4} size="medium">Criar conta</NBButton>
 
           <HStack mt={4} space={2}>
-            <Checkbox value="terms" accessibilityLabel="I accept the user terms" />
+            <Checkbox onPress={() => setUserTermsAccepted(!userTermsAccepted)} value="terms" accessibilityLabel="I accept the user terms" />
             <Text size="small">Eu aceito os termos do usuário</Text>
           </HStack>
+          <FormErrorMessage errorMessage={userTermsError} />
 
           <HStack my={8} space={1} alignItems="center" justifyContent="center">
             <Divider w={8} h={0.5} />
