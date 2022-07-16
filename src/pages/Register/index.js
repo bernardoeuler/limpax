@@ -39,6 +39,7 @@ function Register({ navigation }) {
   const [userTermsError, setUserTermsError] = useState("")
 
   const [passwordVisible, setPasswordVisible] = useState(false)
+  const [passwordConfirmationVisible, setPasswordConfirmationVisible] = useState(false)
 
   async function handleRegister(name, email, password, passwordConfirmation, userTermsAccepted) {
     const userData = [name, email, password, passwordConfirmation, userTermsAccepted]
@@ -162,7 +163,7 @@ function Register({ navigation }) {
             <Input errorMessage={nameError} onChangeText={(text) => setName(text)} placeholder="Nome completo" InputLeftElement={<Icon as={<MaterialIcons name="person" />} ml={4} size={7} color="neutral.500" />} />
             <Input errorMessage={emailError} onChangeText={(text) => setEmail(text)} placeholder="Email" InputLeftElement={<Icon as={<MaterialIcons name="email" />} ml={4} size={7} color="neutral.500" />} />
             <Input errorMessage={passwordError} onChangeText={(text) => setPassword(text)} placeholder="Senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
-            <Input errorMessage={passwordConfirmationError} onChangeText={(text) => setPasswordConfirmation(text)} placeholder="Confirmar senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
+            <Input errorMessage={passwordConfirmationError} onChangeText={(text) => setPasswordConfirmation(text)} placeholder="Confirmar senha" type={passwordConfirmationVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordConfirmationVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordConfirmationVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordConfirmationVisible(!passwordConfirmationVisible)} />} />
           </VStack>
 
           <NBButton onPress={() => handleRegister(name, email, password, passwordConfirmation, userTermsAccepted)} mt={4} size="medium">Criar conta</NBButton>
