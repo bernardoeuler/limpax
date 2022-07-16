@@ -17,7 +17,6 @@ import theme from "./config/theme"
 import Welcome from "./pages/Welcome"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
-import ForgotPassword from "./pages/ForgotPassword"
 
 function App() {
   const Stack = createNativeStackNavigator()
@@ -43,7 +42,6 @@ function App() {
         <Stack.Screen name="Welcome" component={Welcome}/>
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Register" component={Register}/>
-        <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
