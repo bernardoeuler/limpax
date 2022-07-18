@@ -24,8 +24,19 @@ import styles from "../../styles/global"
 
 import Input from "../../components/Input"
 
+import { auth } from "../../config/firebase"
+import { signInWithEmailAndPassword } from "firebase/auth"
+
 function Login({ navigation }) {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [passwordVisible, setPasswordVisible] = useState(false)
+
+  function handleLogin() {
+    signInWithEmailAndPassword(auth, email, password).then(userCred => {
+      console.log(userCred.user.email)
+    })
+  }
 
   return (
     <NativeBaseProvider theme={theme}>
@@ -42,13 +53,13 @@ function Login({ navigation }) {
 
         <Box mt={6} w="100%">
           <VStack space={4}>
-            <Input placeholder="Email" InputLeftElement={<Icon as={<MaterialIcons name="email" />} ml={4} size={7} color="neutral.500" />} />
-            <Input placeholder="Senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
+            <Input errorMessage="" onChangeText={(text) => setEmail(text)} placeholder="Email" InputLeftElement={<Icon as={<MaterialIcons name="email" />} ml={4} size={7} color="neutral.500" />} />
+            <Input errorMessage="" onChangeText={(text) => setPassword(text)} placeholder="Senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
           </VStack>
 
           <Text mt={2} alignSelf="flex-end" color="neutral.700" size="small" fontWeight="medium" onPress={() => {navigation.navigate("ForgotPassword")}}>Esqueceu a senha?</Text>
 
-          <NBButton mt={6} size="medium">Entrar</NBButton>
+          <NBButton onPress={() => handleLogin()} mt={6} size="medium">Entrar</NBButton>
 
           <HStack my={8} space={1} alignItems="center" justifyContent="center">
             <Divider w={8} h={0.5} />
