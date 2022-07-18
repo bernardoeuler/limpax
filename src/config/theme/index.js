@@ -127,22 +127,28 @@ const theme = extendTheme({
 
       sizes: {
         h1: {
-          fontSize: 48
+          fontSize: 48,
+          lineHeight: 60
         },
         h2: {
-          fontSize: 40
+          fontSize: 40,
+          lineHeight: 50
         },
         h3: {
-          fontSize: 32
+          fontSize: 32,
+          lineHeight: 40
         },
         h4: {
-          fontSize: 28
+          fontSize: 28,
+          lineHeight: 35
         },
         h5: {
-          fontSize: 24
+          fontSize: 24,
+          lineHeight: 30
         },
         h6: {
-          fontSize: 20
+          fontSize: 20,
+          lineHeight: 25
         },
       },
     },
@@ -206,6 +212,9 @@ const theme = extendTheme({
           py: "20px",
           _text: {
             fontSize: 18
+          },
+          _spinner: {
+            size: 27,
           }
         },
 
@@ -214,6 +223,9 @@ const theme = extendTheme({
           py: "12px",
           _text: {
             fontSize: 18
+          },
+          _spinner: {
+            size: 27,
           }
         }
       }
