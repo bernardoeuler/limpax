@@ -26,16 +26,92 @@ import Input from "../../components/Input"
 
 import { auth } from "../../config/firebase"
 import { signInWithEmailAndPassword } from "firebase/auth"
+import validateEmail from '../../functions/validateEmail'
 
 function Login({ navigation }) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [emailError, setEmailError] = useState("")
+  const [passwordError, setPasswordError] = useState("")
   const [passwordVisible, setPasswordVisible] = useState(false)
+  const [btnIsLoading, setBtnIsLoading] = useState(false)
 
-  function handleLogin() {
-    signInWithEmailAndPassword(auth, email, password).then(userCred => {
-      console.log(userCred.user.email)
-    })
+  async function handleLogin() {
+    const userData = [email, password]
+    setBtnIsLoading(true)
+
+    try {
+      if(validate(userData)) return setBtnIsLoading(false)
+      const { user } = await signInWithEmailAndPassword(auth, email, password)
+      console.log(user.email)
+    }
+
+    catch (err) {
+      handleError(err.code)
+      setBtnIsLoading(false)
+    }
+  }
+
+  function validate(userData) {
+    const formattedUserData = userData.map((data) => typeof data === "string" ? data.trim() : data)
+    const [formattedEmail, formattedPassword] = formattedUserData
+    let isInvalid = false
+
+    // Validate email
+    if (formattedEmail.length < 1) {
+      isInvalid = handleError("missing-email")
+    }
+
+    else if (validateEmail(formattedEmail)) {
+      isInvalid = handleError("invalid-email")
+    }
+    
+    else {
+      setEmailError("")
+    } 
+
+    // Validate password
+    if (formattedPassword.length < 1) {
+      isInvalid = handleError("missing-password")
+    }
+
+    else {
+      setPasswordError("")
+    } 
+
+    return isInvalid
+  }
+
+
+  function handleError(code) {
+    console.log(code)
+    switch (code) {
+      case "missing-email":
+        setEmailError("Você precisa inserir seu email para continuar")
+        break
+      case "missing-password":
+        setPasswordError("Você precisa inserir sua senha para continuar")
+        break
+      case "invalid-email":
+        setEmailError("Digite um email válido")
+        break
+
+      // Firebase errors
+      case "auth/internal-error":
+        setPasswordError("Erro no servidor, tente novamente em alguns minutos")
+        break
+      case "auth/user-not-found":
+        setPasswordError("Este email ainda não está cadastrado")
+        break
+      case "auth/wrong-password":
+        setPasswordError("A senha está incorreta")
+        break
+      case "auth/too-many-requests":
+        setPasswordError("Muitas tentativas, tente novamente em alguns minutos")
+        break
+    }
+
+    return true
   }
 
   return (
@@ -53,13 +129,11 @@ function Login({ navigation }) {
 
         <Box mt={6} w="100%">
           <VStack space={4}>
-            <Input errorMessage="" onChangeText={(text) => setEmail(text)} placeholder="Email" InputLeftElement={<Icon as={<MaterialIcons name="email" />} ml={4} size={7} color="neutral.500" />} />
-            <Input errorMessage="" onChangeText={(text) => setPassword(text)} placeholder="Senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
+            <Input errorMessage={emailError} onChangeText={(text) => setEmail(text)} placeholder="Email" InputLeftElement={<Icon as={<MaterialIcons name="email" />} ml={4} size={7} color="neutral.500" />} />
+            <Input errorMessage={passwordError} onChangeText={(text) => setPassword(text)} placeholder="Senha" type={passwordVisible ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} ml={4} size={7} color="neutral.500" />} InputRightElement={<Icon as={<MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} />} mr={4} size={7} color={passwordVisible ? "primary.500" : "neutral.500"} onPress={() => setPasswordVisible(!passwordVisible)} />} />
           </VStack>
 
-          <Text mt={2} alignSelf="flex-end" color="neutral.700" size="small" fontWeight="medium" onPress={() => {navigation.navigate("ForgotPassword")}}>Esqueceu a senha?</Text>
-
-          <NBButton onPress={() => handleLogin()} mt={6} size="medium">Entrar</NBButton>
+          <NBButton onPress={handleLogin} isLoading={btnIsLoading} mt={6} size="medium">Entrar</NBButton>
 
           <HStack my={8} space={1} alignItems="center" justifyContent="center">
             <Divider w={8} h={0.5} />
