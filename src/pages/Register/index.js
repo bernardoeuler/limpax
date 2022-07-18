@@ -141,9 +141,12 @@ function Register({ navigation }) {
       case "auth/invalid-email":
         setEmailError("Digite um email válido")
         break
+      case "auth/email-already-in-use":
+        setEmailError("O email já está em uso")
+        break
       case "auth/weak-password":
         setPasswordError("A senha precisa ter no mínimo 6 dígitos")
-        break
+        break        
     }
 
     return true
