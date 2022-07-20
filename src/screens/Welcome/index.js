@@ -18,11 +18,11 @@ function Welcome({ navigation }) {
 
   return (
     <SafeAreaView style={styles.SafeAreaView}>
-      <HStack px={6} space={2} mt={8}>
+      <HStack space={2} mt={8}>
         <NBImage source={require("../../assets/images/logo.png")} alt="Logo" size={12}  />
         <Text color="primary.500" fontFamily="brand" fontWeight="regular" fontSize={24}>LIMPAX</Text> 
       </HStack>
-      <Box style={{flexGrow: 1, justifyContent: "flex-end"}} px={6} py={6}>
+      <Box style={{flexGrow: 1, justifyContent: "flex-end"}} py={6}>
           <Box>
             <Heading size="h3" fontWeight="bold">Bem-vindo ao Limpax</Heading>
             <Text mt={1} size="large" color="neutral.800">Com a nossa ajuda, você pode fazer sua parte para construir uma cidade mais limpa e sustentável</Text>
