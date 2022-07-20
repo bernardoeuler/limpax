@@ -14,6 +14,7 @@ import Welcome from "./screens/Welcome"
 import Login from "./screens/Login"
 import Register from "./screens/Register"
 import Map from "./screens/Map"
+import NewDenunciation from "./screens/NewDenunciation"
 
 import { auth } from "./config/firebase"
 import { onAuthStateChanged } from "firebase/auth"
@@ -50,15 +51,30 @@ function App() {
       {user ? (
         <Stack.Navigator 
           screenOptions={{
-            headerRight: () => <HamburgerIcon color="neutral.900" size={8} />,
             headerTitle: "Mapa de denúncias",
             headerTitleAlign: "left",
-            headerTitleStyle: {
-              color: colors.neutral[900]
-            }
+            headerTintColor: colors.neutral[900]
           }}
         >
-          <Stack.Screen name="Map" component={Map}/>
+          <Stack.Screen
+            name="Map"
+            component={Map}
+            options={{
+              headerRight: () => <HamburgerIcon color="neutral.900" size={8} />,
+              headerTitle: "Mapa de denúncias",
+            }}
+          />
+          <Stack.Screen
+            name="NewDenunciation"
+            component={NewDenunciation}
+            options={{
+              headerTitle: "Nova denúncia",
+              headerTintColor: colors.white,
+              headerStyle: {
+                backgroundColor: colors.primary[500]
+              }
+            }}
+          />
         </Stack.Navigator> 
       ) : (
         <Stack.Navigator screenOptions={{headerShown: false}}>

@@ -33,7 +33,7 @@ function Map() {
             onPress={(e) => {e.preventDefault(); console.log("clicked")}}
           />
         </MapView>
-        <Button position="absolute" bottom={6} right={6} w={20} h={20} borderRadius={99999}>
+        <Button onPress={() => navigation.navigate("NewDenunciation")} position="absolute" bottom={6} right={6} w={20} h={20} borderRadius={99999} shadow={1}>
           <AddIcon size={8} color="white" />
         </Button>
       </SafeAreaView>
