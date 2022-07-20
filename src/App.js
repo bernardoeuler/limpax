@@ -9,7 +9,7 @@ import { useFonts } from "expo-font"
 import interFonts from "./assets/fonts/inter"
 import josefinSansFonts from "./assets/fonts/josefin-sans"
 
-import Loading from "./pages/Loading"
+import Loading from "./components/Loading"
 import Welcome from "./pages/Welcome"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
