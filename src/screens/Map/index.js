@@ -7,9 +7,11 @@ import {
 } from "native-base"
 import { StyleSheet, Dimensions, SafeAreaView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { useNavigation } from "@react-navigation/native"
 
 function Map() {
   const { colors } = useTheme()
+  const navigation = useNavigation()
 
   return (
       <SafeAreaView style={styles.container}>

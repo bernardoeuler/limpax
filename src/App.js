@@ -50,9 +50,9 @@ function App() {
       {user ? (
         <Stack.Navigator 
           screenOptions={{
-            headerLeft: () => <HamburgerIcon color="neutral.900" size={8} />,
+            headerRight: () => <HamburgerIcon color="neutral.900" size={8} />,
             headerTitle: "Mapa de denúncias",
-            headerTitleAlign: "center",
+            headerTitleAlign: "left",
             headerTitleStyle: {
               color: colors.neutral[900]
             }
