@@ -45,8 +45,8 @@ function App() {
 
   return (
     <NativeBaseProvider theme={theme}>
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
       <NavigationContainer>
-      <StatusBar barStyle="dark-content" backgroundColor="white" translucent={false} />
       {user ? (
         <Stack.Navigator 
           screenOptions={{
