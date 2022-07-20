@@ -26,7 +26,7 @@ import Input from "../../components/Input"
 
 import { auth } from "../../config/firebase"
 import { signInWithEmailAndPassword } from "firebase/auth"
-import validateEmail from '../../functions/validateEmail'
+import validateEmail from '../../utils/validateEmail'
 
 function Login({ navigation }) {
   const [email, setEmail] = useState("")

@@ -21,9 +21,9 @@ import Input from "../../components/Input"
 import FormErrorMessage from "../../components/FormErrorMessage"
 import { auth } from "../../config/firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth"
-import validateEmail from '../../functions/validateEmail'
-import validatePassword from '../../functions/validatePassword'
-import storeData from "../../functions/storeData"
+import validateEmail from '../../utils/validateEmail'
+import validatePassword from '../../utils/validatePassword'
+import storeData from "../../utils/storeData"
 
 function Register({ navigation }) {
   const [name, setName] = useState("")
