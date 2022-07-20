@@ -295,6 +295,40 @@ const theme = extendTheme({
         }
       }
     },
+
+    TextArea: {
+      defaultProps: {
+        size: "normal",
+        borderWidth: 0,
+        rounded: 4,
+
+        _light: {
+          bg: 'neutral.50',
+          color: "neutral.900",
+          placeholderTextColor: "neutral.500",
+          _focus: {
+            bg: 'neutral.50'
+          }
+        },
+
+        _dark: {
+          bg: 'neutral.800',
+          color: "white",
+          placeholderTextColor: "neutral.400",
+          _focus: {
+            bg: 'neutral.800'
+          }
+        },
+
+        sizes: {
+          normal: {
+            fontSize: 16,
+            py: 3,
+            px: 4,
+          }
+        }
+      }
+    }
   }
 })
 
