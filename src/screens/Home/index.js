@@ -7,7 +7,7 @@ import Map from "../../screens/Map"
 import NewDenunciation from "../../screens/NewDenunciation"
 import theme from "../../config/theme"
 
-function HomeStack() {
+function Home() {
   const Stack = createNativeStackNavigator()
   const navigation = useNavigation()
   const { colors } = theme
@@ -47,4 +47,4 @@ function HomeStack() {
   )
 }
 
-export default HomeStack
+export default Home
