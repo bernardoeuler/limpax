@@ -1,8 +1,9 @@
+import "react-native-gesture-handler"
 import { useState, useEffect } from "react"
 import { NativeBaseProvider, StatusBar, HamburgerIcon } from "native-base"
 
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { NavigationContainer } from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 import { useFonts } from "expo-font"
 
