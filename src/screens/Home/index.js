@@ -15,7 +15,6 @@ function Home() {
   return (
     <Stack.Navigator 
       screenOptions={{
-        headerTitle: "Mapa de denúncias",
         headerTitleAlign: "left",
         headerTintColor: colors.neutral[900]
       }}
