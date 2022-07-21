@@ -269,20 +269,20 @@ const theme = extendTheme({
         rounded: 4,
 
         _light: {
-          bg: 'neutral.50',
+          bg: "neutral.50",
           color: "neutral.900",
           placeholderTextColor: "neutral.500",
           _focus: {
-            bg: 'neutral.50'
+            bg: "neutral.50"
           }
         },
 
         _dark: {
-          bg: 'neutral.800',
+          bg: "neutral.800",
           color: "white",
           placeholderTextColor: "neutral.400",
           _focus: {
-            bg: 'neutral.800'
+            bg: "neutral.800"
           }
         },
       },
@@ -303,20 +303,20 @@ const theme = extendTheme({
         rounded: 4,
 
         _light: {
-          bg: 'neutral.50',
+          bg: "neutral.50",
           color: "neutral.900",
           placeholderTextColor: "neutral.500",
           _focus: {
-            bg: 'neutral.50'
+            bg: "neutral.50"
           }
         },
 
         _dark: {
-          bg: 'neutral.800',
+          bg: "neutral.800",
           color: "white",
           placeholderTextColor: "neutral.400",
           _focus: {
-            bg: 'neutral.800'
+            bg: "neutral.800"
           }
         },
 

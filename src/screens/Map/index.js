@@ -5,8 +5,8 @@ import {
   Button,
   AddIcon
 } from "native-base"
-import { StyleSheet, Dimensions, SafeAreaView } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { StyleSheet, Dimensions, SafeAreaView } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native"
 
 function Map() {
@@ -45,12 +45,12 @@ export default Map
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
 });

@@ -7,7 +7,7 @@ import Input from "../../components/Input"
 
 function NewDenunciation() {
   const { colors } = theme
-  const { width: screenWidth } = Dimensions.get('window')
+  const { width: screenWidth } = Dimensions.get("window")
 
   return (
     <SafeAreaView style={{...styles.SafeAreaView, alignItems: "center", paddingVertical: 24}}>

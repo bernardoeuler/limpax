@@ -9,12 +9,12 @@ import {
 
 import { Dimensions, SafeAreaView } from "react-native"
 
-import ScalableImage from 'react-native-scalable-image'
+import ScalableImage from "react-native-scalable-image"
 
 import styles from "../../styles/global"
 
 function Welcome({ navigation }) {
-  const deviceWidth = Dimensions.get('window').width
+  const deviceWidth = Dimensions.get("window").width
 
   return (
     <SafeAreaView style={styles.SafeAreaView}>
