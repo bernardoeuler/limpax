@@ -24,9 +24,13 @@ function MyDenunciations() {
         component={DenunciationsList}
         options={{
           title: "Minhas denúncias",
+          headerTintColor: "white",
+          headerStyle: { 
+            backgroundColor: colors.primary[500]
+          },
           headerRight: () => <HamburgerIcon
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-            color="neutral.900"
+            color="white"
             size={6}
           />
         }}
