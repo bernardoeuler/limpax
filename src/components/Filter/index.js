@@ -6,27 +6,49 @@ function Filter() {
   const [activeButton, setActiveButton]  = useState("pending")
 
   return (
-    <HStack w="100%">
+    <Button.Group variant="outline" w="100%">
         <Button
-          variant="outline"
-          size="md"
+          onPress={() => setActiveButton("pending")}
           w="50%"
-          borderLeftColor={activeButton === "pending" ? "red.600" : "success.600"}
-          style={styles.pendingButton}
+          size="md"
+          bg={activeButton === "pending" ? "warning.50" : "white"}
+          borderWidth={2}
+          borderColor={activeButton === "pending" ? "warning.600" : "neutral.400"}
+          disabled={activeButton === "pending"}
+          _text={{
+            color: activeButton === "pending" ? "warning.600" : "neutral.600"
+          }}
+          _pressed={{
+            backgroundColor: "neutral.50",
+            _text: {
+              color: "neutral.600",
+            }
+          }}
         >
           Em andamento
         </Button>
 
         <Button
-          variant="outline"
-          size="md"
+          onPress={() => setActiveButton("resolved")}
           w="50%"
-          bg="blue.600"
-          borderColor={activeButton === "pending" ? "red.600" : "success.600"}
+          size="md"
+          bg={activeButton === "resolved" ? "success.50" : "white"}
+          borderWidth={2}
+          borderColor={activeButton === "resolved" ? "success.600" : "neutral.400"}
+          disabled={activeButton === "resolved"}
+          _text={{
+            color: activeButton === "resolved" ? "success.600" : "neutral.600"
+          }}
+          _pressed={{
+            backgroundColor: "neutral.50",
+            _text: {
+              color: "neutral.600",
+            }
+          }}
         >
           Resolvidas
         </Button>
-      </HStack>
+      </Button.Group>
   )
 }
 
