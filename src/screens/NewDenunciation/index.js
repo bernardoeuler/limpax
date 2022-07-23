@@ -10,7 +10,7 @@ function NewDenunciation() {
   const { width: screenWidth } = Dimensions.get("window")
 
   return (
-    <SafeAreaView style={{...styles.SafeAreaView, alignItems: "center", paddingVertical: 24}}>
+    <SafeAreaView style={{...styles.Container, alignItems: "center", paddingVertical: 24}}>
       <StatusBar barStyle="light-content" backgroundColor={colors.primary[600]} />
         <VStack w="100%" space={4}>
           <Pressable onPress={() => console.log("Pressed")} bg="red.100" height={200} borderRadius={8} overflow="hidden">

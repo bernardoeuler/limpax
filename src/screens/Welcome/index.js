@@ -17,7 +17,7 @@ function Welcome({ navigation }) {
   const deviceWidth = Dimensions.get("window").width
 
   return (
-    <SafeAreaView style={styles.SafeAreaView}>
+    <SafeAreaView style={styles.Container}>
       <HStack space={2} mt={8}>
         <NBImage source={require("../../assets/images/logo.png")} alt="Logo" size={12}  />
         <Text color="primary.500" fontFamily="brand" fontWeight="regular" fontSize={24}>LIMPAX</Text> 

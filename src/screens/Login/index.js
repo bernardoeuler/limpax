@@ -112,7 +112,7 @@ function Login({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={{...styles.SafeAreaView, alignItems: "center", justifyContent: "flex-start"}}>
+    <SafeAreaView style={{...styles.Container, alignItems: "center", justifyContent: "flex-start"}}>
       <HStack mt={10}>
         <NBImage source={require("../../assets/images/logo.png")} alt="Logo" size={16} />
       </HStack>

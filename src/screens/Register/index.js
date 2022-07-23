@@ -151,7 +151,7 @@ function Register({ navigation }) {
   }
   
   return (
-    <SafeAreaView style={{...styles.SafeAreaView, alignItems: "center", justifyContent: "flex-start"}}>
+    <SafeAreaView style={{...styles.Container, alignItems: "center", justifyContent: "flex-start"}}>
       <NBImage mt={10} source={require("../../assets/images/logo.png")} alt="Logo" size={16} />
 
       <Heading mt={6} size="h3" alignSelf="flex-start">Crie uma conta</Heading>
