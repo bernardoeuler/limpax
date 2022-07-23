@@ -77,7 +77,9 @@ const theme = extendTheme({
 
     black: "#000000",
 
-    white: "#ffffff"
+    white: "#ffffff",
+
+    lightBg: "#e9e9e9"
   },
 
   fontConfig: {
