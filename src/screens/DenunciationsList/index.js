@@ -78,6 +78,7 @@ function DenunciationsList() {
       date: "20/07/2022 às 20:00"
     },
   ])
+  const activeDenunciations = denunciations.filter(({status}) => status === activeFilterButton)
 
   return (
     <SafeAreaView style={{...styles.Container, backgroundColor: colors.lightBg, paddingHorizontal: 0}}>
@@ -90,7 +91,7 @@ function DenunciationsList() {
         my={8}
         px={6}
         showsVerticalScrollIndicator={false}
-        data={denunciations}
+        data={activeDenunciations}
         renderItem={({item}) => (
           <Denunciation 
             onPress={() => navigation.navigate("DenunciationDetails", { ...item })}
