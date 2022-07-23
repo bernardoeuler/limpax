@@ -66,7 +66,7 @@ function DenunciationsList() {
 
   return (
     <SafeAreaView style={{...styles.Container, backgroundColor: colors.lightBg, paddingHorizontal: 0}}>
-      <StatusBar barStyle="light-content" backgroundColor={colors.primary[600]} />
+      <StatusBar barStyle="light-content" backgroundColor={colors.primary[500]} />
 
       <FilterGroup mt={6} px={6}>
         <FilterButton onPress={() => setActiveFilterButton("pending")} title="Em andamento" colorScheme="warning" isActive={activeFilterButton === "pending"} />

@@ -12,8 +12,8 @@ function DenunciationDetails({ route }) {
 
   return (
     <ScrollView style={styles.Container} showsVerticalScrollIndicator={false}>
-      <StatusBar barStyle="light-content" backgroundColor={colors.primary[600]} />
-      
+      <StatusBar barStyle="light-content" backgroundColor={colors.primary[500]} />
+
       <VStack space={8} my={6}>
         <Pressable bg="neutral.50" borderRadius={16} overflow="hidden">
           <Image source={{uri: pictureUrl}} width={imageFullWidth} height={200} resizeMode="cover" alt="uploaded image" />
