@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, FlatList, Spacer } from "native-base"
+import { Box, FlatList } from "native-base"
 import { SafeAreaView } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import styles from "../../styles/global"
@@ -14,63 +14,67 @@ function DenunciationsList() {
   const [activeFilterButton, setActiveFilterButton] = useState("pending")
   const [denunciations, setDenunciations] = useState([
     {
+      pictureUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
       status: "pending",
       garbageType: "Lixo doméstico",
+      quantity: "Grande",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
       date: "20/07/2022 às 20:00"
     },
     {
-      status: "resolved",
-      garbageType: "Lixo industrial",
-      date: "20/07/2022 às 19:00"
-    },
-    {
-      status: "pending",
-      garbageType: "Entulho",
-      date: "20/07/2022 às 20:00"
-    },
-    {
+      pictureUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
       status: "pending",
       garbageType: "Lixo doméstico",
+      quantity: "Grande",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
       date: "20/07/2022 às 20:00"
     },
     {
-      status: "resolved",
-      garbageType: "Lixo industrial",
-      date: "20/07/2022 às 19:00"
-    },
-    {
-      status: "pending",
-      garbageType: "Entulho",
-      date: "20/07/2022 às 20:00"
-    },
-    {
+      pictureUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
       status: "pending",
       garbageType: "Lixo doméstico",
+      quantity: "Grande",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
       date: "20/07/2022 às 20:00"
     },
     {
+      pictureUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
       status: "resolved",
-      garbageType: "Lixo industrial",
-      date: "20/07/2022 às 19:00"
-    },
-    {
-      status: "pending",
-      garbageType: "Entulho",
+      garbageType: "Lixo doméstico",
+      quantity: "Grande",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
       date: "20/07/2022 às 20:00"
     },
     {
+      pictureUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
       status: "pending",
       garbageType: "Lixo doméstico",
+      quantity: "Grande",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
       date: "20/07/2022 às 20:00"
     },
     {
-      status: "resolved",
-      garbageType: "Lixo industrial",
-      date: "20/07/2022 às 19:00"
+      pictureUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+      status: "pending",
+      garbageType: "Lixo doméstico",
+      quantity: "Grande",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
+      date: "20/07/2022 às 20:00"
     },
     {
+      pictureUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
       status: "pending",
-      garbageType: "Entulho",
+      garbageType: "Lixo doméstico",
+      quantity: "Grande",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
+      date: "20/07/2022 às 20:00"
+    },
+    {
+      pictureUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+      status: "resolved",
+      garbageType: "Lixo doméstico",
+      quantity: "Grande",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
       date: "20/07/2022 às 20:00"
     },
   ])
@@ -83,13 +87,13 @@ function DenunciationsList() {
       </FilterGroup>
 
       <FlatList
-        mt={8}
+        my={8}
         px={6}
         showsVerticalScrollIndicator={false}
         data={denunciations}
         renderItem={({item}) => (
           <Denunciation 
-            onPress={() => navigation.navigate("DenunciationDetails")}
+            onPress={() => navigation.navigate("DenunciationDetails", { ...item })}
             status={item.status}
             garbageType={item.garbageType}
             date={item.date}
@@ -97,8 +101,6 @@ function DenunciationsList() {
         )}
         ItemSeparatorComponent={() => <Box h={4} />}
       />
-
-      <Box h={6} />
     </SafeAreaView>
   )
 }
