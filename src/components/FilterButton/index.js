@@ -8,7 +8,7 @@ function FilterButton(props) {
   return (
     <Button
       { ...ButtonProps }
-      w="50%"
+      w="48%"
       size="md"
       bg={isActive ? `${colorScheme}.50` : "white"}
       borderWidth={2}

@@ -1,9 +1,9 @@
 import React from "react"
 import { Button } from "native-base"
 
-function FilterGroup({ children }) {
+function FilterGroup(props) {
   return (
-    <Button.Group variant="outline" w="100%">{children}</Button.Group>
+    <Button.Group justifyContent="space-between" variant="outline" w="100%" {...props}>{props.children}</Button.Group>
   )
 }
 
