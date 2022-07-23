@@ -35,7 +35,17 @@ function MyDenunciations() {
           />
         }}
       />
-      <Stack.Screen name="DenunciationDetails" component={DenunciationDetails} options={{title: "Detalhes da denúncia"}} />
+      <Stack.Screen
+        name="DenunciationDetails"
+        component={DenunciationDetails}
+        options={{
+          title: "Detalhes da denúncia",
+          headerTintColor: "white",
+          headerStyle: { 
+            backgroundColor: colors.primary[500]
+          },
+        }}
+      />
     </Stack.Navigator> 
   )
 }
