@@ -1,16 +1,21 @@
-import React from "react"
+import React, { useState } from "react"
 import { Center, Text, Button } from "native-base"
 import { SafeAreaView } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import styles from "../../styles/global"
-import Filter from "../../components/Filter"
+import FilterButton from "../../components/FilterButton"
+import FilterGroup from "../../components/FilterGroup"
 
 function DenunciationsList() {
   const navigation = useNavigation()
+  const [activeButton, setActiveButton] = useState("pending")
 
   return (
     <SafeAreaView style={styles.SafeAreaView}>
-      <Filter />
+      <FilterGroup>
+        <FilterButton onPress={() => setActiveButton("pending")} title="Em andamento" colorScheme="warning" isActive={activeButton === "pending"} />
+        <FilterButton onPress={() => setActiveButton("resolved")} title="Resolvidas" colorScheme="success" isActive={activeButton === "resolved"} />
+      </FilterGroup>
     </SafeAreaView>
   )
 }
