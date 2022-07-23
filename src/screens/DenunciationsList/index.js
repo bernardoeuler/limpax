@@ -8,13 +8,13 @@ import FilterGroup from "../../components/FilterGroup"
 
 function DenunciationsList() {
   const navigation = useNavigation()
-  const [activeButton, setActiveButton] = useState("pending")
+  const [activeFilterButton, setActiveFilterButton] = useState("pending")
 
   return (
     <SafeAreaView style={styles.SafeAreaView}>
       <FilterGroup>
-        <FilterButton onPress={() => setActiveButton("pending")} title="Em andamento" colorScheme="warning" isActive={activeButton === "pending"} />
-        <FilterButton onPress={() => setActiveButton("resolved")} title="Resolvidas" colorScheme="success" isActive={activeButton === "resolved"} />
+        <FilterButton onPress={() => setActiveFilterButton("pending")} title="Em andamento" colorScheme="warning" isActive={activeFilterButton === "pending"} />
+        <FilterButton onPress={() => setActiveFilterButton("resolved")} title="Resolvidas" colorScheme="success" isActive={activeFilterButton === "resolved"} />
       </FilterGroup>
     </SafeAreaView>
   )
