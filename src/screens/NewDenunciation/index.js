@@ -13,8 +13,20 @@ function NewDenunciation() {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [imageUri, setImageUri] = useState(null)
 
-  async function pickImage() {
+  async function pickImageFromLibrary() {
     const response = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    })
+
+    if (!response.cancelled) {
+      setImageUri(response.uri);
+    }
+  };
+
+  async function pickImageFromCamera() {
+    const response = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 1,
@@ -34,8 +46,8 @@ function NewDenunciation() {
           <Modal.CloseButton />
           <Modal.Header>Envie uma imagem</Modal.Header>
           <Modal.Body>
-            <Button size="medium">Tirar foto</Button>
-            <Button mt={4} size="medium" onPress={pickImage}>Escolher da galeria</Button>
+            <Button size="medium" onPress={pickImageFromCamera}>Tirar foto</Button>
+            <Button mt={4} size="medium" onPress={pickImageFromLibrary}>Escolher da galeria</Button>
           </Modal.Body>
         </Modal.Content>
       </Modal>
