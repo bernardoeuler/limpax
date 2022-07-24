@@ -224,7 +224,7 @@ const theme = extendTheme({
           w: "100%",
           py: "12px",
           _text: {
-            fontSize: 18
+            fontSize: 16
           },
           _spinner: {
             size: 27,
