@@ -45,7 +45,7 @@ function Register({ navigation }) {
     try {
       if (validate(userData)) return
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
-      const userDataObject = { name, email,  }
+      const userDataObject = { name, email, userId: user.uid }
       storeData(userDataObject, "users")
     }
   
