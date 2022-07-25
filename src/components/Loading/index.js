@@ -12,7 +12,7 @@ function Loading(props) {
   return (
     <NativeBaseProvider theme={theme}>
       <Center flex={1}>
-        <Spinner { ...props } color="neutral.50" size={64}/>
+        <Spinner { ...props } size={64}/>
       </Center>
     </NativeBaseProvider>
   )

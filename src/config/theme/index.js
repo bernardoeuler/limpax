@@ -331,6 +331,12 @@ const theme = extendTheme({
           }
         }
       }
+    },
+
+    Spinner: {
+      defaultProps: {
+        color: "neutral.50"
+      }
     }
   }
 })
