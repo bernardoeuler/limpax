@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { StatusBar, Box, FlatList } from "native-base"
 import { SafeAreaView } from "react-native"
 import { useNavigation } from "@react-navigation/native"
@@ -6,63 +6,38 @@ import styles from "../../styles/global"
 import FilterButton from "../../components/FilterButton"
 import FilterGroup from "../../components/FilterGroup"
 import Denunciation from "../../components/Denunciation"
+import EmptyDenunciationsFeedback from "../../components/EmptyDenunciationsFeedback"
+import Loading from "../../components/Loading"
 import theme from "../../config/theme"
+import { auth, firestore } from "../../config/firebase"
+import { getDocs, collection } from "firebase/firestore"
+import getFirestoreDoc from "../../utils/getFirestoreDoc"
 
 function DenunciationsList() {
   const { colors } = theme
   const navigation = useNavigation()
+  const [isLoading, setIsLoading] = useState(true)
   const [activeFilterButton, setActiveFilterButton] = useState("pending")
-  const [denunciations, setDenunciations] = useState([
-    {
-      pictureUrl: "https://cdn.pixabay.com/photo/2017/09/08/18/20/garbage-2729608__480.jpg",
-      status: "pending",
-      garbageType: "Lixo doméstico",
-      quantity: "Grande",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
-      date: "20/07/2022 às 20:00"
-    },
-    {
-      pictureUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR53hSgQlRh9t26O11xs7T73-FwqYYw63-Zdg&usqp=CAU",
-      status: "pending",
-      garbageType: "Lixo doméstico",
-      quantity: "Grande",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
-      date: "20/07/2022 às 20:00"
-    },
-    {
-      pictureUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSwlcUFrdkwwOD940MgjidKD81zv7afC1TxA&usqp=CAU",
-      status: "pending",
-      garbageType: "Lixo doméstico",
-      quantity: "Grande",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
-      date: "20/07/2022 às 20:00"
-    },
-    {
-      pictureUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2OZhF4rX-mUblcTulezt4PuLw_xHSwcGPgA&usqp=CAU",
-      status: "resolved",
-      garbageType: "Lixo doméstico",
-      quantity: "Grande",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
-      date: "20/07/2022 às 20:00"
-    },
-    {
-      pictureUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5nu3FWpKmzP8aTVs6AtAmb7eRNPeFrxd7yQ&usqp=CAU",
-      status: "pending",
-      garbageType: "Lixo doméstico",
-      quantity: "Grande",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
-      date: "20/07/2022 às 20:00"
-    },
-    {
-      pictureUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR45vZxqRGFYPv2-hdpGv6MziTopA4DMjaMyQ&usqp=CAU",
-      status: "pending",
-      garbageType: "Lixo doméstico",
-      quantity: "Grande",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend dolor...",
-      date: "20/07/2022 às 20:00"
-    },
-  ])
+  const [denunciations, setDenunciations] = useState([])
   const activeDenunciations = denunciations.filter(({status}) => status === activeFilterButton)
+
+  useEffect(() => {
+    const authenticatedUserId = auth.currentUser.uid
+    const usersRef = collection(firestore, "users")
+
+    async function getDenunciations() {
+      const userDoc = await getFirestoreDoc(usersRef, "userId", authenticatedUserId)
+      const denunciationsRef = collection(firestore, `users/${userDoc.documentId}/denunciations`)
+      const { docs: denunciationsDocs } = await getDocs(denunciationsRef)
+      const denunciationsArray = denunciationsDocs.map(doc => {
+        return { ...doc.data(), documentId: doc.id }
+      })
+      setDenunciations(denunciationsArray)
+      setIsLoading(false)
+    }
+
+    getDenunciations()
+  }, [activeFilterButton])
 
   return (
     <SafeAreaView style={{...styles.Container, backgroundColor: colors.lightBg, paddingHorizontal: 0}}>
@@ -73,21 +48,25 @@ function DenunciationsList() {
         <FilterButton onPress={() => setActiveFilterButton("resolved")} title="Resolvidas" colorScheme="success" isActive={activeFilterButton === "resolved"} />
       </FilterGroup>
 
-      <FlatList
-        my={8}
-        px={6}
-        showsVerticalScrollIndicator={false}
-        data={activeDenunciations}
-        renderItem={({item}) => (
-          <Denunciation 
-            onPress={() => navigation.navigate("DenunciationDetails", { ...item })}
-            status={item.status}
-            garbageType={item.garbageType}
-            date={item.date}
-          />
-        )}
-        ItemSeparatorComponent={() => <Box h={4} />}
-      />
+      { isLoading ? <Loading color="neutral.100" /> :
+        <FlatList
+          my={8}
+          px={6}
+          showsVerticalScrollIndicator={false}
+          data={activeDenunciations}
+          renderItem={({item}) => (
+            <Denunciation 
+              onPress={() => navigation.navigate("DenunciationDetails", { ...item })}
+              status={item.status}
+              garbageType={item.garbageType}
+              date={item.date}
+            />
+          )}
+          ItemSeparatorComponent={() => <Box h={4} />}
+          ListEmptyComponent={<EmptyDenunciationsFeedback activeFilter={activeFilterButton} />}
+        />       
+      }
+
     </SafeAreaView>
   )
 }
