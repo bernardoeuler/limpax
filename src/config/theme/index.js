@@ -72,12 +72,15 @@ const theme = extendTheme({
       600: "#5c5c5c",
       700: "#474747",
       800: "#333333",
-      900: "#1f1f1f"
+      900: "#1f1f1f",
+      translucent: "#fafafaaa"
     },
 
     black: "#000000",
 
-    white: "#ffffff"
+    white: "#ffffff",
+
+    lightBg: "#e9e9e9"
   },
 
   fontConfig: {
@@ -222,7 +225,7 @@ const theme = extendTheme({
           w: "100%",
           py: "12px",
           _text: {
-            fontSize: 18
+            fontSize: 16
           },
           _spinner: {
             size: 27,
@@ -269,20 +272,20 @@ const theme = extendTheme({
         rounded: 4,
 
         _light: {
-          bg: 'neutral.50',
+          bg: "neutral.50",
           color: "neutral.900",
           placeholderTextColor: "neutral.500",
           _focus: {
-            bg: 'neutral.50'
+            bg: "neutral.50"
           }
         },
 
         _dark: {
-          bg: 'neutral.800',
+          bg: "neutral.800",
           color: "white",
           placeholderTextColor: "neutral.400",
           _focus: {
-            bg: 'neutral.800'
+            bg: "neutral.800"
           }
         },
       },
@@ -303,20 +306,20 @@ const theme = extendTheme({
         rounded: 4,
 
         _light: {
-          bg: 'neutral.50',
+          bg: "neutral.50",
           color: "neutral.900",
           placeholderTextColor: "neutral.500",
           _focus: {
-            bg: 'neutral.50'
+            bg: "neutral.50"
           }
         },
 
         _dark: {
-          bg: 'neutral.800',
+          bg: "neutral.800",
           color: "white",
           placeholderTextColor: "neutral.400",
           _focus: {
-            bg: 'neutral.800'
+            bg: "neutral.800"
           }
         },
 
@@ -327,6 +330,12 @@ const theme = extendTheme({
             px: 4,
           }
         }
+      }
+    },
+
+    Spinner: {
+      defaultProps: {
+        color: "neutral.50"
       }
     }
   }

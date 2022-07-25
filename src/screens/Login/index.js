@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react"
 
 import {
   Text,
@@ -13,9 +13,9 @@ import {
   Icon
 } from "native-base"
 
-import { SafeAreaView } from 'react-native'
+import { SafeAreaView } from "react-native"
 
-import { MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons } from "@expo/vector-icons"
 
 import styles from "../../styles/global"
 
@@ -23,7 +23,7 @@ import Input from "../../components/Input"
 
 import { auth } from "../../config/firebase"
 import { signInWithEmailAndPassword } from "firebase/auth"
-import validateEmail from '../../utils/validateEmail'
+import validateEmail from "../../utils/validateEmail"
 
 function Login({ navigation }) {
   const [email, setEmail] = useState("")
@@ -112,7 +112,7 @@ function Login({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={{...styles.SafeAreaView, alignItems: "center", justifyContent: "flex-start"}}>
+    <SafeAreaView style={{...styles.Container, alignItems: "center", justifyContent: "flex-start"}}>
       <HStack mt={10}>
         <NBImage source={require("../../assets/images/logo.png")} alt="Logo" size={16} />
       </HStack>
