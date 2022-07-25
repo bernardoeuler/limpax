@@ -11,7 +11,7 @@ import Loading from "../../components/Loading"
 import theme from "../../config/theme"
 import { auth, firestore } from "../../config/firebase"
 import { getDocs, collection } from "firebase/firestore"
-import getFirestoreDoc from "../../utils/getFirestoreDoc"
+import getSpecificDoc from "../../utils/getSpecificDoc"
 
 function DenunciationsList() {
   const { colors } = theme
@@ -26,7 +26,7 @@ function DenunciationsList() {
     const usersRef = collection(firestore, "users")
 
     async function getDenunciations() {
-      const userDoc = await getFirestoreDoc(usersRef, "userId", authenticatedUserId)
+      const userDoc = await getSpecificDoc(usersRef, "userId", authenticatedUserId)
       const denunciationsRef = collection(firestore, `users/${userDoc.documentId}/denunciations`)
       const { docs: denunciationsDocs } = await getDocs(denunciationsRef)
       const denunciationsArray = denunciationsDocs.map(doc => {
@@ -34,9 +34,12 @@ function DenunciationsList() {
       })
       setDenunciations(denunciationsArray)
       setIsLoading(false)
+
+      return denunciationsArray
     }
 
     getDenunciations()
+      .then(console.log)
   }, [activeFilterButton])
 
   return (
