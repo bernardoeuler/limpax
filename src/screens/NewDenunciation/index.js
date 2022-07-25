@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import { ScrollView, StatusBar, Pressable, Image, Select, TextArea, VStack, Button, Modal } from "native-base"
-import { Dimensions } from "react-native"
+import { ScrollView, StatusBar, Pressable, Image, Select, TextArea, VStack, Button, Modal, Text, CloseIcon, HStack, IconButton } from "native-base"
+import { Dimensions, ImageBackground } from "react-native"
 import styles from "../../styles/global"
 import theme from "../../config/theme"
 import Input from "../../components/Input"
@@ -34,6 +34,7 @@ function NewDenunciation() {
 
     if (!response.cancelled) {
       setImageUri(response.uri);
+      console.log(response.uri)
     }
   };
 
@@ -64,9 +65,16 @@ function NewDenunciation() {
           }}
         >
           { 
-            imageUri ? 
-            <Image size={screenWidth - 48} resizeMode="cover" alt="Upload an image" source={{ uri: imageUri }} /> :
-            <ImageFallbackMessage />
+            imageUri ? (
+              <ImageBackground style={{flex: 1, justifyContent: "flex-end"}} resizeMode="cover" alt="Upload an image" source={{ uri: imageUri }}>
+                <HStack alignItems="center" justifyContent="space-between" py={2} px={4} bg="neutral.translucent">
+                  <Text color="neutral.700" numberOfLines={1}>{imageUri}</Text>
+                  <IconButton onPress={() => setImageUri(null)} colorScheme="neutral" size="sm" rounded="full" icon={<CloseIcon />} />
+                </HStack>
+              </ImageBackground>
+            ) : (
+              <ImageFallbackMessage />
+            )
           }
         </Pressable>
 
