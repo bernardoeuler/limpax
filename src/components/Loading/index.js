@@ -8,11 +8,11 @@ import {
 
 import theme from "../../config/theme"
 
-function Loading() {
+function Loading(props) {
   return (
     <NativeBaseProvider theme={theme}>
       <Center flex={1}>
-        <Spinner color="neutral.50" size={64}/>
+        <Spinner { ...props } color="neutral.50" size={64}/>
       </Center>
     </NativeBaseProvider>
   )
