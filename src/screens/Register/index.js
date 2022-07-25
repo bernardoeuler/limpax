@@ -45,7 +45,7 @@ function Register({ navigation }) {
     try {
       if (validate(userData)) return
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
-      const userDataObject = { name, email,  }
+      const userDataObject = { name, email, userId: user.uid }
       storeData(userDataObject, "users")
     }
   
@@ -151,7 +151,7 @@ function Register({ navigation }) {
   }
   
   return (
-    <SafeAreaView style={{...styles.SafeAreaView, alignItems: "center", justifyContent: "flex-start"}}>
+    <SafeAreaView style={{...styles.Container, alignItems: "center", justifyContent: "flex-start"}}>
       <NBImage mt={10} source={require("../../assets/images/logo.png")} alt="Logo" size={16} />
 
       <Heading mt={6} size="h3" alignSelf="flex-start">Crie uma conta</Heading>
