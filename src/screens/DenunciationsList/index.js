@@ -39,7 +39,6 @@ function DenunciationsList() {
     }
 
     getDenunciations()
-      .then(console.log)
   }, [activeFilterButton])
 
   return (
