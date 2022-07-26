@@ -6,12 +6,12 @@ import {
 import { StatusBar } from "expo-status-bar"
 import { useFonts } from "expo-font"
 
-import interFonts from "./assets/fonts/inter"
-import josefinSansFonts from "./assets/fonts/josefin-sans"
+import interFonts from "./src/assets/fonts/inter"
+import josefinSansFonts from "./src/assets/fonts/josefin-sans"
 
-import theme from "./config/theme"
+import theme from "./src/config/theme"
 
-import Welcome from "./pages/Welcome"
+import Welcome from "./src/pages/Welcome"
 
 function App() {
   const [fontsLoaded ] = useFonts({
