@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "limpax",
+    "name": "Limpax",
     "slug": "limpax",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -30,6 +30,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "packagerOpts": {
+      "sourceExts": [ "js", "json", "ts", "tsx", "jsx", "vue"],
+      "config": "metro.config.js"
     }
   }
 }
