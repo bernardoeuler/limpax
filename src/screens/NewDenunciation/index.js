@@ -1,11 +1,12 @@
 import React, { useState } from "react"
-import { ScrollView, StatusBar, Pressable, Image, Select, TextArea, VStack, Button, Modal, Text, CloseIcon, HStack, IconButton } from "native-base"
+import { ScrollView, StatusBar, Pressable, Image, Select, TextArea, VStack, Button, Modal, Text, CloseIcon, HStack, Icon, Center } from "native-base"
 import { Dimensions, ImageBackground } from "react-native"
+import { MaterialIcons } from "@expo/vector-icons"
 import styles from "../../styles/global"
 import theme from "../../config/theme"
 import Input from "../../components/Input"
 import ImageFallbackMessage from "../../components/ImageFallbackMessage"
-import * as ImagePicker from 'expo-image-picker'
+import * as ImagePicker from "expo-image-picker"
 
 function NewDenunciation() {
   const { colors } = theme
@@ -54,7 +55,7 @@ function NewDenunciation() {
       </Modal>
 
       <VStack w="100%" space={4} mt={6}>
-        <Pressable
+        {/* <Pressable
           onPress={() => setIsModalVisible(true)}
           bg="neutral.50"
           height={200}
@@ -76,7 +77,36 @@ function NewDenunciation() {
               <ImageFallbackMessage />
             )
           }
+        </Pressable> */}
+
+        <Text fontWeight="bold" color="neutral.700">Localização</Text>
+
+        <Pressable
+          bg="neutral.50"
+          height={200}
+          borderRadius={8}
+          overflow="hidden"
+        >
+          <ImageBackground style={{flex: 1, justifyContent: "flex-end", padding: 16}} resizeMode="cover" alt="Mapa" source={{ uri: "https://www.google.com/maps/d/u/0/thumbnail?mid=1A6wz5BDvr-AebBysGEQCXadWhRc&hl=en" }}>
+            <Button
+              maxW="60%"
+              size="small"
+              shadow={8}
+              rounded="full"
+              leftIcon={
+                <Icon
+                  size={6}
+                  color="white"
+                  as={<MaterialIcons name="edit" />} 
+                />
+              }
+            >
+              Editar localização
+            </Button>
+          </ImageBackground>
         </Pressable>
+
+        <Text mt={4} fontWeight="bold" color="neutral.700">Tipo de lixo</Text>
 
         <Select
           placeholder="Tipo de lixo"
@@ -84,8 +114,10 @@ function NewDenunciation() {
           <Select.Item label="Doméstico" value="domestic" />
           <Select.Item label="Industrial" value="industrial" />
           <Select.Item label="Hospitalar" value="hopitalar" />
-          <Select.Item label="Entulho" value="rocks" />
+          <Select.Item label="Entulho" value="bricks" />
         </Select>
+
+        <Text mt={4} fontWeight="bold" color="neutral.700">Quantidade de lixo</Text>
 
         <Select
           placeholder="Quantidade de lixo"
@@ -95,7 +127,20 @@ function NewDenunciation() {
           <Select.Item label="Pequena" value="small" />
         </Select>
 
+        <Text mt={4} fontWeight="bold" color="neutral.700">Descrição</Text>
+
         <TextArea h="240px" placeholder="Descrição" fontSize={16} _focus={{bg: "neutral.50"}}/>
+
+        <Text mt={4} fontWeight="bold" color="neutral.700">Descrição</Text>
+
+        <ScrollView horizontal>
+          <Center flex={1} w={24} h={24} bg="neutral.50">
+            <Icon as={<MaterialIcons name="add-a-photo" />} size={10} color="neutral.500" />
+          </Center>
+          <Center flex={1} w={24} h={24} bg="neutral.50">
+            <Icon as={<MaterialIcons name="add-a-photo" />} size={10} color="neutral.500" />
+          </Center>
+        </ScrollView>
       </VStack>
 
       <Button mt={8} mb={6}>Finalizar</Button>
