@@ -3,7 +3,8 @@ name: Publish on Expo 🚀
 on:
   push:
     branches:
-      - "*"
+      - develop
+      - feature/new-denunciation
 
 jobs:
   publish:
