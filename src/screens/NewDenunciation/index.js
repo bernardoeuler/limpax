@@ -1,18 +1,41 @@
 import React, { useState } from "react"
 import { ScrollView, StatusBar, Pressable, Image, Select, TextArea, VStack, Button, Modal, Text, CloseIcon, Box, Icon, Center, FlatList, IconButton } from "native-base"
-import { Dimensions, ImageBackground } from "react-native"
+import { ImageBackground } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
+import * as ImagePicker from "expo-image-picker"
 import styles from "../../styles/global"
 import theme from "../../config/theme"
-import Input from "../../components/Input"
-import ImageFallbackMessage from "../../components/ImageFallbackMessage"
-import * as ImagePicker from "expo-image-picker"
+import { auth, firestore } from "../../config/firebase"
+import getSpecificDoc from "../../utils/getSpecificDoc"
+import storeData from "../../utils/storeData"
+import { collection } from "firebase/firestore"
 
 function NewDenunciation() {
   const { colors } = theme
-  const { width: screenWidth } = Dimensions.get("window")
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [images, setImages] = useState([{ id: 0}, { id: 1, pictureUrl: "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540bernardo.euler%252Flimpax/ImagePicker/8af58d5a-8765-4baf-b971-d3464100e917.jpg" }])
+  const [coordinates, setCoordinates] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+  })
+  const [garbageType, setGarbageType] = useState("")
+  const [quantity, setQuantity] = useState("")
+  const [description, setDescription] = useState("")
+  const [images, setImages] = useState([{ id: 0}])
+
+  function handleSubmit() {
+    const authenticatedUserId = auth.currentUser.uid
+    const usersRef = collection(firestore, "users")
+    const denunciationData = {
+      coordinates,
+      garbageType,
+      quantity,
+      description,
+      pictureUrl: "https://firebasestorage.googleapis.com/v0/b/limpax.appspot.com/o/trash.jpg?alt=media&token=b8895e40-9e1e-45e8-b576-049104fb4290"
+    }
+
+    getSpecificDoc(usersRef, "userId", authenticatedUserId)
+      .then(userDoc => storeData(denunciationData, `users/${userDoc.documentId}/denunciations`))
+  }
 
   async function pickImageFromLibrary() {
     const response = await ImagePicker.launchImageLibraryAsync({
@@ -35,7 +58,6 @@ function NewDenunciation() {
 
     if (!response.cancelled) {
       setImages(prevList => [ ...prevList, { id: prevList.length, pictureUrl: response.uri }]);
-      console.log(response.uri)
     }
   };
 
@@ -55,30 +77,6 @@ function NewDenunciation() {
       </Modal>
 
       <VStack w="100%" space={4} mt={6}>
-        {/* <Pressable
-          onPress={() => setIsModalVisible(true)}
-          bg="neutral.50"
-          height={200}
-          borderRadius={8}
-          overflow="hidden"
-          _pressed={{
-            bg: "neutral.100"
-          }}
-        >
-          { 
-            imageUri ? (
-              <ImageBackground style={{flex: 1, justifyContent: "flex-end"}} resizeMode="cover" alt="Upload an image" source={{ uri: imageUri }}>
-                <HStack alignItems="center" justifyContent="space-between" py={2} px={4} bg="neutral.translucent">
-                  <Text color="neutral.700" numberOfLines={1}>{imageUri}</Text>
-                  <IconButton onPress={() => setImageUri(null)} colorScheme="neutral" size="sm" rounded="full" icon={<CloseIcon />} />
-                </HStack>
-              </ImageBackground>
-            ) : (
-              <ImageFallbackMessage />
-            )
-          }
-        </Pressable> */}
-
         <Text fontWeight="bold" color="neutral.700">Localização</Text>
 
         <Pressable
@@ -159,7 +157,7 @@ function NewDenunciation() {
         </FlatList>
       </VStack>
 
-      <Button mt={8} mb={6}>Finalizar</Button>
+      <Button onPress={handleSubmit} mt={8} mb={6}>Finalizar</Button>
     </ScrollView>
   )
 }
