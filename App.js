@@ -6,18 +6,18 @@ import { NavigationContainer } from "@react-navigation/native"
 
 import { useFonts } from "expo-font"
 
-import interFonts from "./assets/fonts/inter"
-import josefinSansFonts from "./assets/fonts/josefin-sans"
+import interFonts from "./src/assets/fonts/inter"
+import josefinSansFonts from "./src/assets/fonts/josefin-sans"
 
-import Loading from "./components/Loading"
+import Loading from "./src/components/Loading"
 
-import AuthRoutes from "./routes/auth.routes"
-import AppRoutes from "./routes/app.routes"
+import AuthRoutes from "./src/routes/auth.routes"
+import AppRoutes from "./src/routes/app.routes"
 
-import { auth } from "./config/firebase"
+import { auth } from "./src/config/firebase"
 import { onAuthStateChanged } from "firebase/auth"
 
-import theme from "./config/theme"
+import theme from "./src/config/theme"
 
 function App() {
   const [user, setUser] = useState(true)
