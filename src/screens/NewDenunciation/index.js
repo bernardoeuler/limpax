@@ -33,6 +33,8 @@ function NewDenunciation() {
       pictureUrl: "https://firebasestorage.googleapis.com/v0/b/limpax.appspot.com/o/trash.jpg?alt=media&token=b8895e40-9e1e-45e8-b576-049104fb4290"
     }
 
+    console.log("Submiting denunciation")
+
     getSpecificDoc(usersRef, "userId", authenticatedUserId)
       .then(userDoc => storeData(denunciationData, `users/${userDoc.documentId}/denunciations`))
   }
