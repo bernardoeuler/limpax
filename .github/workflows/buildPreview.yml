@@ -1,7 +1,6 @@
 on:
   push:
     branches:
-      - main
       - develop
       - workflows
 jobs:
@@ -28,4 +27,4 @@ jobs:
         run: npm install --force
 
       - name: 🚀 Build app
-        run: npx eas-cli build --platform all --non-interactive
+        run: eas build --non-interactive -p all --profile preview
