@@ -1,6 +1,9 @@
 name: Publish on Expo 🚀
 
-on: push
+on:
+  push:
+    branches:
+      - "*"
 
 jobs:
   publish:
