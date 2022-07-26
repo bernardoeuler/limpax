@@ -1,11 +1,10 @@
-name: Build android app preview
+name: Build Android Preview 🚀
 
 
 on:
   push:
     branches:
       - develop
-      - workflows
 jobs:
   build:
     runs-on: ubuntu-latest
