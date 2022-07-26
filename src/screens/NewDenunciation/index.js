@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { ScrollView, StatusBar, Pressable, Image, Select, TextArea, VStack, Button, Modal, Text, CloseIcon, HStack, Icon, Center } from "native-base"
+import { ScrollView, StatusBar, Pressable, Image, Select, TextArea, VStack, Button, Modal, Text, CloseIcon, Box, Icon, Center, FlatList, IconButton } from "native-base"
 import { Dimensions, ImageBackground } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 import styles from "../../styles/global"
@@ -12,7 +12,7 @@ function NewDenunciation() {
   const { colors } = theme
   const { width: screenWidth } = Dimensions.get("window")
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [imageUri, setImageUri] = useState(null)
+  const [images, setImages] = useState([{ id: 0}, { id: 1, pictureUrl: "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540bernardo.euler%252Flimpax/ImagePicker/8af58d5a-8765-4baf-b971-d3464100e917.jpg" }])
 
   async function pickImageFromLibrary() {
     const response = await ImagePicker.launchImageLibraryAsync({
@@ -22,7 +22,7 @@ function NewDenunciation() {
     })
 
     if (!response.cancelled) {
-      setImageUri(response.uri);
+      setImages(prevList => [ ...prevList, { id: prevList.length, pictureUrl: response.uri }]);
     }
   };
 
@@ -34,7 +34,7 @@ function NewDenunciation() {
     })
 
     if (!response.cancelled) {
-      setImageUri(response.uri);
+      setImages(prevList => [ ...prevList, { id: prevList.length, pictureUrl: response.uri }]);
       console.log(response.uri)
     }
   };
@@ -131,16 +131,32 @@ function NewDenunciation() {
 
         <TextArea h="240px" placeholder="Descrição" fontSize={16} _focus={{bg: "neutral.50"}}/>
 
-        <Text mt={4} fontWeight="bold" color="neutral.700">Descrição</Text>
+        <Text mt={4} fontWeight="bold" color="neutral.700">Fotos</Text>
 
-        <ScrollView horizontal>
-          <Center flex={1} w={24} h={24} bg="neutral.50">
-            <Icon as={<MaterialIcons name="add-a-photo" />} size={10} color="neutral.500" />
-          </Center>
-          <Center flex={1} w={24} h={24} bg="neutral.50">
-            <Icon as={<MaterialIcons name="add-a-photo" />} size={10} color="neutral.500" />
-          </Center>
-        </ScrollView>
+        <FlatList
+          horizontal
+          data={images}
+          renderItem={({item}) => {
+            if (item.id === 0) {
+              return (
+                <Pressable onPress={() => setIsModalVisible(true)}>
+                  <Center key={item.id} flex={1} w={24} h={24} bg="neutral.50" borderRadius={8}>
+                    <Icon as={<MaterialIcons name="add-a-photo" />} size={10} color="neutral.500" />
+                  </Center>
+                </Pressable>
+              )
+            }
+
+            return (
+              <Center position="relative" key={item.id} flex={1} w={24} h={24} bg="neutral.50" borderRadius={8} overflow="hidden">
+                <Image source={{ uri: item.pictureUrl }} size={24} resizeMode="cover" alt="Image" />
+                <IconButton onPress={() => setImages(prevList => prevList.filter(image => image.id !== item.id))} position="absolute" top={0} right={0} colorScheme="neutral" icon={<CloseIcon size={4} color="white" />} />
+              </Center>
+            )
+          }}
+          ItemSeparatorComponent={() => <Box w={4} />}
+        >
+        </FlatList>
       </VStack>
 
       <Button mt={8} mb={6}>Finalizar</Button>
