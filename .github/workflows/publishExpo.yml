@@ -1,10 +1,11 @@
-name: Expo Publish
+name: Publish on Expo 🚀
 
 on:
   push:
     branches:
-      - main
-      - develop
+      - "*"
+      - "!main"
+      
 jobs:
   publish:
     runs-on: ubuntu-latest
