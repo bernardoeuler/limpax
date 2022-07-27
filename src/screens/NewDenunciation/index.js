@@ -7,8 +7,9 @@ import styles from "../../styles/global"
 import theme from "../../config/theme"
 import { auth, firestore } from "../../config/firebase"
 import getSpecificDoc from "../../utils/getSpecificDoc"
+import uploadImage from "../../utils/uploadImage"
 import storeData from "../../utils/storeData"
-import { collection } from "firebase/firestore"
+import { collection, doc, setDoc } from "firebase/firestore"
 
 function NewDenunciation() {
   const { colors } = theme
@@ -20,9 +21,9 @@ function NewDenunciation() {
   const [garbageType, setGarbageType] = useState("")
   const [quantity, setQuantity] = useState("")
   const [description, setDescription] = useState("")
-  const [images, setImages] = useState([{ id: 0}])
+  const [images, setImages] = useState([])
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const authenticatedUserId = auth.currentUser.uid
     const usersRef = collection(firestore, "users")
     const denunciationData = {
@@ -30,36 +31,48 @@ function NewDenunciation() {
       garbageType,
       quantity,
       description,
-      pictureUrl: "https://firebasestorage.googleapis.com/v0/b/limpax.appspot.com/o/trash.jpg?alt=media&token=b8895e40-9e1e-45e8-b576-049104fb4290"
     }
 
-    console.log("Submiting denunciation")
+    console.log("Submiting...")
 
-    getSpecificDoc(usersRef, "userId", authenticatedUserId)
-      .then(userDoc => storeData(denunciationData, `users/${userDoc.documentId}/denunciations`))
+    try {
+      const userDoc = await getSpecificDoc(usersRef, "userId", authenticatedUserId)
+      const denunciationId = await storeData(denunciationData, `users/${userDoc.documentId}/denunciations`)
+      const denunciationRef = doc(firestore, `users/${userDoc.documentId}/denunciations/${denunciationId}`)
+      const uploadedImages = images.map(async ({id, uri}) => {
+        const imagesPath = `images/denunciations/${denunciationId}`
+        const uploadedImageUrl = await uploadImage(uri, `${imagesPath}/img${id}`)
+        console.log(uploadedImageUrl)
+      })
+      await setDoc(denunciationRef, uploadedImages)
+    }
+
+    catch (err) {
+      console.warn("Error: " + err)
+    }
   }
 
   async function pickImageFromLibrary() {
-    const response = await ImagePicker.launchImageLibraryAsync({
+    const response = await ImagePicker.launchImageLibraryAsync({ 
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      allowsEditing: false,
       quality: 1,
     })
 
     if (!response.cancelled) {
-      setImages(prevList => [ ...prevList, { id: prevList.length, pictureUrl: response.uri }]);
+      setImages(prevList => [ ...prevList, { id: prevList.length + 1, uri: response.uri }]);
     }
   };
 
   async function pickImageFromCamera() {
     const response = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      allowsEditing: false,
       quality: 1,
     })
 
     if (!response.cancelled) {
-      setImages(prevList => [ ...prevList, { id: prevList.length, pictureUrl: response.uri }]);
+      setImages(prevList => [ ...prevList, { id: prevList.length + 1, uri: response.uri }])
     }
   };
 
@@ -135,7 +148,7 @@ function NewDenunciation() {
 
         <FlatList
           horizontal
-          data={images}
+          data={[{ id: 0}, ...images]}
           renderItem={({item}) => {
             if (item.id === 0) {
               return (
@@ -149,7 +162,7 @@ function NewDenunciation() {
 
             return (
               <Center position="relative" key={item.id} flex={1} w={24} h={24} bg="neutral.50" borderRadius={8} overflow="hidden">
-                <Image source={{ uri: item.pictureUrl }} size={24} resizeMode="cover" alt="Image" />
+                <Image source={{ uri: item.uri }} size={24} resizeMode="cover" alt="Image" />
                 <IconButton onPress={() => setImages(prevList => prevList.filter(image => image.id !== item.id))} position="absolute" top={0} right={0} colorScheme="neutral" icon={<CloseIcon size={4} color="white" />} />
               </Center>
             )
