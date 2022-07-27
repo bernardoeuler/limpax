@@ -9,7 +9,7 @@ import { auth, firestore } from "../../config/firebase"
 import getSpecificDoc from "../../utils/getSpecificDoc"
 import uploadImage from "../../utils/uploadImage"
 import storeData from "../../utils/storeData"
-import { collection, doc, setDoc } from "firebase/firestore"
+import { collection } from "firebase/firestore"
 
 function NewDenunciation() {
   const { colors } = theme
@@ -31,6 +31,7 @@ function NewDenunciation() {
       garbageType,
       quantity,
       description,
+      status: "pending"
     }
 
     console.log("Submiting denunciation...")
@@ -52,6 +53,8 @@ function NewDenunciation() {
   }
 
   async function pickImageFromLibrary() {
+    setIsModalVisible(false)
+
     const response = await ImagePicker.launchImageLibraryAsync({ 
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
@@ -59,11 +62,13 @@ function NewDenunciation() {
     })
 
     if (!response.cancelled) {
-      setImages(prevList => [ ...prevList, { id: prevList.length + 1, uri: response.uri }]);
+      setImages(prevList => [ ...prevList, { id: prevList.length + 1, uri: response.uri }])
     }
-  };
+  }
 
   async function pickImageFromCamera() {
+    setIsModalVisible(false)
+
     const response = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
@@ -73,7 +78,7 @@ function NewDenunciation() {
     if (!response.cancelled) {
       setImages(prevList => [ ...prevList, { id: prevList.length + 1, uri: response.uri }])
     }
-  };
+  }
 
   return (
     <ScrollView style={{...styles.Container}}>
@@ -121,27 +126,29 @@ function NewDenunciation() {
         <Text mt={4} fontWeight="bold" color="neutral.700">Tipo de lixo</Text>
 
         <Select
+          onValueChange={setGarbageType}
           placeholder="Tipo de lixo"
         >
-          <Select.Item label="Doméstico" value="domestic" />
-          <Select.Item label="Industrial" value="industrial" />
-          <Select.Item label="Hospitalar" value="hopitalar" />
-          <Select.Item label="Entulho" value="bricks" />
+          <Select.Item label="Doméstico" value="Doméstico" />
+          <Select.Item label="Industrial" value="Industrial" />
+          <Select.Item label="Hospitalar" value="Hospitalar" />
+          <Select.Item label="Entulho" value="Entulho" />
         </Select>
 
         <Text mt={4} fontWeight="bold" color="neutral.700">Quantidade de lixo</Text>
 
         <Select
+          onValueChange={setQuantity}
           placeholder="Quantidade de lixo"
         >
-          <Select.Item label="Grande" value="big" />
-          <Select.Item label="Média" value="average" />
-          <Select.Item label="Pequena" value="small" />
+          <Select.Item label="Grande" value="Grande" />
+          <Select.Item label="Média" value="Média" />
+          <Select.Item label="Pequena" value="Pequena" />
         </Select>
 
         <Text mt={4} fontWeight="bold" color="neutral.700">Descrição</Text>
 
-        <TextArea h="240px" placeholder="Descrição" fontSize={16} _focus={{bg: "neutral.50"}}/>
+        <TextArea onChangeText={setDescription} h="240px" placeholder="Descrição" fontSize={16} _focus={{bg: "neutral.50"}}/>
 
         <Text mt={4} fontWeight="bold" color="neutral.700">Fotos</Text>
 
