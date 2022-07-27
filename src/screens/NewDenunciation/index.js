@@ -33,18 +33,17 @@ function NewDenunciation() {
       description,
     }
 
-    console.log("Submiting...")
+    console.log("Submiting denunciation...")
 
     try {
       const userDoc = await getSpecificDoc(usersRef, "userId", authenticatedUserId)
       const denunciationId = await storeData(denunciationData, `users/${userDoc.documentId}/denunciations`)
-      const denunciationRef = doc(firestore, `users/${userDoc.documentId}/denunciations/${denunciationId}`)
-      const uploadedImages = images.map(async ({id, uri}) => {
+      console.log("Data stored in database")
+      images.forEach(async ({id, uri}) => {
         const imagesPath = `images/denunciations/${denunciationId}`
-        const uploadedImageUrl = await uploadImage(uri, `${imagesPath}/img${id}`)
-        console.log(uploadedImageUrl)
+        await uploadImage(uri, `${imagesPath}/img${id}`)
       })
-      await setDoc(denunciationRef, uploadedImages)
+      console.log("Images uploaded succesfully")
     }
 
     catch (err) {
