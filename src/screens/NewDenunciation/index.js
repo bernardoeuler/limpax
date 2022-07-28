@@ -14,6 +14,8 @@ import { collection } from "firebase/firestore"
 function NewDenunciation() {
   const { colors } = theme
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isBtnLoading, setIsBtnLoading] = useState(false)
+
   const [coordinates, setCoordinates] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -37,6 +39,8 @@ function NewDenunciation() {
 
     console.log("Submiting denunciation...")
 
+    setIsBtnLoading(true)
+
     try {
       const userDoc = await getSpecificDoc(usersRef, "userId", authenticatedUserId)
       const denunciationId = await storeData(denunciationData, `users/${userDoc.documentId}/denunciations`)
@@ -47,11 +51,13 @@ function NewDenunciation() {
       })
       console.log("Images uploaded succesfully")
       Alert.alert("Denúncia enviada com sucesso!", "Abra a aba Minha denúncias para ver a denúncia que acabou de fazer.")
+      setIsBtnLoading(false)
     }
 
     catch (err) {
       console.warn("Error: " + err)
       Alert.alert("Não foi possível enviar sua denúncia", "Houve um erro inesperado, verifique se os dados estão corretos ou tente novamente mais tarde.")
+      setIsBtnLoading(false)
     }
   }
 
@@ -181,7 +187,7 @@ function NewDenunciation() {
         </FlatList>
       </VStack>
 
-      <Button onPress={handleSubmit} mt={8} mb={6}>Finalizar</Button>
+      <Button isLoading={isBtnLoading} onPress={handleSubmit} mt={8} mb={6}>Finalizar</Button>
     </ScrollView>
   )
 }
