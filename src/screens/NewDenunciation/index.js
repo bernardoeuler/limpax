@@ -31,7 +31,8 @@ function NewDenunciation() {
       garbageType,
       quantity,
       description,
-      status: "pending"
+      status: "pending",
+      timestamp: Date.now()
     }
 
     console.log("Submiting denunciation...")

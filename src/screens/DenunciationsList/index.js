@@ -12,6 +12,7 @@ import theme from "../../config/theme"
 import { auth, firestore } from "../../config/firebase"
 import { getDocs, collection } from "firebase/firestore"
 import getSpecificDoc from "../../utils/getSpecificDoc"
+import parseTimestamp from "../../utils/parseTimestamp"
 
 function DenunciationsList() {
   const { colors } = theme
@@ -30,7 +31,8 @@ function DenunciationsList() {
       const denunciationsRef = collection(firestore, `users/${userDoc.documentId}/denunciations`)
       const { docs: denunciationsDocs } = await getDocs(denunciationsRef)
       const denunciationsArray = denunciationsDocs.map(doc => {
-        return { ...doc.data(), documentId: doc.id }
+        const data = doc.data()
+        return { ...data, date: parseTimestamp(data.timestamp), documentId: doc.id }
       })
       setDenunciations(denunciationsArray)
       setIsLoading(false)
