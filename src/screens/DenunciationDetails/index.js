@@ -73,7 +73,7 @@ function DenunciationDetails({ route }) {
           <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={[...images, ...images]}
+            data={images}
             renderItem={({item}) => {
               console.log(item.url)
               return (
