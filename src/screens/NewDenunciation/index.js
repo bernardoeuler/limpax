@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { ScrollView, StatusBar, Pressable, Image, Select, TextArea, VStack, Button, Modal, Text, CloseIcon, Box, Icon, Center, FlatList, IconButton } from "native-base"
-import { ImageBackground } from "react-native"
+import { ImageBackground, Alert } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
 import styles from "../../styles/global"
@@ -46,10 +46,12 @@ function NewDenunciation() {
         await uploadImage(uri, `${imagesPath}/img${id}`)
       })
       console.log("Images uploaded succesfully")
+      Alert.alert("Denúncia enviada com sucesso!", "Abra a aba Minha denúncias para ver a denúncia que acabou de fazer.")
     }
 
     catch (err) {
       console.warn("Error: " + err)
+      Alert.alert("Não foi possível enviar sua denúncia", "Houve um erro inesperado, verifique se os dados estão corretos ou tente novamente mais tarde.")
     }
   }
 
