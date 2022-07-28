@@ -9,7 +9,7 @@ import { auth, firestore } from "../../config/firebase"
 import getSpecificDoc from "../../utils/getSpecificDoc"
 import uploadImage from "../../utils/uploadImage"
 import storeData from "../../utils/storeData"
-import { collection } from "firebase/firestore"
+import { addDoc, collection } from "firebase/firestore"
 
 function NewDenunciation() {
   const { colors } = theme
@@ -47,17 +47,19 @@ function NewDenunciation() {
       console.log("Data stored in database")
       images.forEach(async ({id, uri}) => {
         const imagesPath = `images/denunciations/${denunciationId}`
-        await uploadImage(uri, `${imagesPath}/img${id}`)
+        const downloadUrl = await uploadImage(uri, `${imagesPath}/img${id}`)
+        const imagesCollectionRef = collection(firestore, `users/${userDoc.documentId}/denunciations/${denunciationId}/images`)
+        addDoc(imagesCollectionRef, { url: downloadUrl })
       })
+      setIsBtnLoading(false)
       console.log("Images uploaded succesfully")
       Alert.alert("Denúncia enviada com sucesso!", "Abra a aba Minha denúncias para ver a denúncia que acabou de fazer.")
-      setIsBtnLoading(false)
     }
 
     catch (err) {
+      setIsBtnLoading(false)
       console.warn("Error: " + err)
       Alert.alert("Não foi possível enviar sua denúncia", "Houve um erro inesperado, verifique se os dados estão corretos ou tente novamente mais tarde.")
-      setIsBtnLoading(false)
     }
   }
 
@@ -163,6 +165,7 @@ function NewDenunciation() {
 
         <FlatList
           horizontal
+          showsHorizontalScrollIndicator={false}
           data={[{ id: 0}, ...images]}
           renderItem={({item}) => {
             if (item.id === 0) {
