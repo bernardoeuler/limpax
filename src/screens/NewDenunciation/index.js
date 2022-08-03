@@ -59,7 +59,7 @@ function NewDenunciation() {
     catch (err) {
       setIsBtnLoading(false)
       console.warn("Error: " + err)
-      Alert.alert("Não foi possível enviar sua denúncia", "Houve um erro inesperado, verifique se os dados estão corretos ou tente novamente mais tarde.")
+      Alert.alert("Não foi possível enviar sua denúncia", "Houve um erro inesperado, verifique sua conexão e tente novamente.")
     }
   }
 
@@ -144,6 +144,7 @@ function NewDenunciation() {
           <Select.Item label="Industrial" value="Industrial" />
           <Select.Item label="Hospitalar" value="Hospitalar" />
           <Select.Item label="Entulho" value="Entulho" />
+          <Select.Item label="Outros" value="Outros" />
         </Select>
 
         <Text mt={4} fontWeight="bold" color="neutral.700">Quantidade de lixo</Text>
