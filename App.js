@@ -23,6 +23,7 @@ function App() {
   const [user, setUser] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const [fontsLoaded] = useFonts({
+
     ...interFonts,
     ...josefinSansFonts
   })
