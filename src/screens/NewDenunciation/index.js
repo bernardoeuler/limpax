@@ -144,6 +144,7 @@ function NewDenunciation() {
           <Select.Item label="Industrial" value="Industrial" />
           <Select.Item label="Hospitalar" value="Hospitalar" />
           <Select.Item label="Entulho" value="Entulho" />
+          <Select.Item label="Outros" value="Outros" />
         </Select>
 
         <Text mt={4} fontWeight="bold" color="neutral.700">Quantidade de lixo</Text>
