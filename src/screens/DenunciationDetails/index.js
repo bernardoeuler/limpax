@@ -70,12 +70,12 @@ function DenunciationDetails({ route }) {
 
         <VStack space={3}>
           <Heading size="h6">Fotos</Heading>
-          <FlatList
+          { images.length > 0 ? 
+            <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
             data={images}
             renderItem={({item}) => {
-              console.log(item.url)
               return (
                 <Center key={item.documentId} position="relative" flex={1} w={24} h={24} bg="neutral.50" borderRadius={8} overflow="hidden">
                   <Image source={{ uri: item.url }} size={24} resizeMode="cover" alt="Image" />
@@ -83,8 +83,11 @@ function DenunciationDetails({ route }) {
               )
             }}
             ItemSeparatorComponent={() => <Box w={4} />}
-          >
-          </FlatList>
+            >
+            </FlatList> :
+            <Text color="neutral.600" fontWeight="medium">Nenhuma imagem foi enviada</Text>
+          }
+          
         </VStack>
       </VStack>
     </ScrollView>
