@@ -1,14 +1,24 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { StatusBar, ScrollView, VStack, Pressable, Image, Heading, Text } from "native-base"
 import { Dimensions } from "react-native"
 import styles from "../../styles/global"
 import theme from "../../config/theme"
+import { storage } from "../../config/firebase"
+import { ref, getDownloadURL } from "firebase/storage"
 
 function DenunciationDetails({ route }) {
   const { colors } = theme
-  const { pictureUrl, status, garbageType, quantity, description, date } = route.params
+  const { documentId: denunciationId, status, garbageType, quantity, description, date } = route.params
   const imageFullWidth = Dimensions.get("window").width - styles.Container.paddingHorizontal * 2
   const statusText = status === "pending" ? "Em andamento" : "Resolvida"
+  const [fisrtImageUrl, setFirstImageUrl] = useState(null)
+
+  useEffect(() => {
+    const fisrtImageRef = ref(storage, `images/denunciations/${denunciationId}/img1`)
+    getDownloadURL(fisrtImageRef)
+      .then(url => setFirstImageUrl(url))
+  }, [])
+
 
   return (
     <ScrollView style={styles.Container} showsVerticalScrollIndicator={false}>
@@ -16,7 +26,7 @@ function DenunciationDetails({ route }) {
 
       <VStack space={8} my={6}>
         <Pressable bg="neutral.50" borderRadius={16} overflow="hidden">
-          <Image source={{uri: pictureUrl}} width={imageFullWidth} height={200} resizeMode="cover" alt="uploaded image" />
+          <Image source={{uri: fisrtImageUrl}} width={imageFullWidth} height={200} resizeMode="cover" alt="uploaded image" />
         </Pressable>
 
         <VStack space={1}>
