@@ -1,8 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { ScrollView, StatusBar, Pressable, Image, Select, TextArea, VStack, Button, Modal, Text, CloseIcon, Box, Icon, Center, FlatList, IconButton } from "native-base"
-import { ImageBackground, Alert } from "react-native"
+import { Alert, PermissionsAndroid } from "react-native"
+import { useNavigation } from "@react-navigation/native"
 import { MaterialIcons } from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
+import * as Location from "expo-location"
+import Loading from "../../components/Loading"
 import styles from "../../styles/global"
 import theme from "../../config/theme"
 import { auth, firestore } from "../../config/firebase"
@@ -10,26 +13,49 @@ import getSpecificDoc from "../../utils/getSpecificDoc"
 import uploadImage from "../../utils/uploadImage"
 import storeData from "../../utils/storeData"
 import { addDoc, collection } from "firebase/firestore"
+import { GOOGLE_MAPS_API_KEY } from "@env"
 
 function NewDenunciation() {
   const { colors } = theme
+  const navigation = useNavigation()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isBtnLoading, setIsBtnLoading] = useState(false)
+  const [hasLocationPermission, setHasLocationPermission] = useState(false)
 
-  const [coordinates, setCoordinates] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-  })
+  const [coordinates, setCoordinates] = useState({})
   const [garbageType, setGarbageType] = useState("")
   const [quantity, setQuantity] = useState("")
   const [description, setDescription] = useState("")
   const [images, setImages] = useState([])
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", getCurrentLocation)
+
+    return unsubscribe
+  }, [navigation])
+
+  async function getCurrentLocation() {
+    console.log("Getting coordinates...")
+
+    setHasLocationPermission(await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION))
+
+    if (hasLocationPermission) {
+      const { status } = await Location.requestForegroundPermissionsAsync()
+      if (status === "granted") {
+        const { coords } = await Location.getCurrentPositionAsync()
+        setCoordinates(coords)
+        console.log("Coordinates saved")
+        return coords
+      }
+    }
+
+  }
+
   async function handleSubmit() {
     const authenticatedUserId = auth.currentUser.uid
     const usersRef = collection(firestore, "users")
     const denunciationData = {
-      coordinates,
+      coordinates: await getCurrentLocation(),
       garbageType,
       quantity,
       description,
@@ -40,6 +66,12 @@ function NewDenunciation() {
     console.log("Submiting denunciation...")
 
     setIsBtnLoading(true)
+
+    if (!hasLocationPermission) {
+      setIsBtnLoading(false)
+      Alert.alert("Não foi possível enviar sua denúncia", "Você precisa permitir que o aplicativo use sua localização")
+      return await Location.requestForegroundPermissionsAsync()
+    } 
 
     try {
       const userDoc = await getSpecificDoc(usersRef, "userId", authenticatedUserId)
@@ -52,14 +84,14 @@ function NewDenunciation() {
         addDoc(imagesCollectionRef, { url: downloadUrl })
       })
       setIsBtnLoading(false)
+      Alert.alert("Denúncia enviada com sucesso!", "Abra a aba Minha denúncias para ver a denúncia que acabou de fazer.", [{text: "OK", onPress: () => navigation.goBack()}])
       console.log("Images uploaded succesfully")
-      Alert.alert("Denúncia enviada com sucesso!", "Abra a aba Minha denúncias para ver a denúncia que acabou de fazer.")
     }
 
     catch (err) {
       setIsBtnLoading(false)
-      console.warn("Error: " + err)
       Alert.alert("Não foi possível enviar sua denúncia", "Houve um erro inesperado, verifique sua conexão e tente novamente.")
+      console.warn("Error: " + err)
     }
   }
 
@@ -112,26 +144,17 @@ function NewDenunciation() {
         <Pressable
           bg="neutral.50"
           height={200}
-          borderRadius={8}
+          borderRadius={8} 
           overflow="hidden"
         >
-          <ImageBackground style={{flex: 1, justifyContent: "flex-end", padding: 16}} resizeMode="cover" alt="Mapa" source={{ uri: "https://www.google.com/maps/d/u/0/thumbnail?mid=1A6wz5BDvr-AebBysGEQCXadWhRc&hl=en" }}>
-            <Button
-              maxW="60%"
-              size="small"
-              shadow={8}
-              rounded="full"
-              leftIcon={
-                <Icon
-                  size={6}
-                  color="white"
-                  as={<MaterialIcons name="edit" />} 
-                />
-              }
-            >
-              Editar localização
-            </Button>
-          </ImageBackground>
+          <Image
+            flex={1}
+            resizeMode="cover" 
+            alt="Mapa"
+            source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${coordinates.latitude},${coordinates.longitude}&zoom=12&size=600x600&key=${GOOGLE_MAPS_API_KEY}` }}
+            fallbackElement={<Loading color="neutral.100" />}
+          >
+          </Image>
         </Pressable>
 
         <Text mt={4} fontWeight="bold" color="neutral.700">Tipo de lixo</Text>
