@@ -153,7 +153,7 @@ function NewDenunciation() {
             source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${coordinates.latitude},${coordinates.longitude}&zoom=12&size=600x600&key=AIzaSyDulUyQ88FKGdBfQSF4wrsf5f-J8GHXGIY` }}
             fallbackElement={<Loading color="neutral.100" />}
           >
-          </Image> 
+          </Image>
         </Pressable>
 
         <Text mt={4} fontWeight="bold" color="neutral.700">Tipo de lixo</Text>
