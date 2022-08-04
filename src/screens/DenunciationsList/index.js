@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { StatusBar, Box, FlatList, ArrowBackIcon } from "native-base"
+import { StatusBar, Box, FlatList } from "native-base"
 import { SafeAreaView } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import styles from "../../styles/global"
@@ -69,6 +69,8 @@ function DenunciationsList() {
               status={item.status}
               garbageType={item.garbageType}
               date={item.date}
+              key={item.documentId}
+              id={item.documentId}
             />
           )}
           ItemSeparatorComponent={() => <Box h={4} />}
