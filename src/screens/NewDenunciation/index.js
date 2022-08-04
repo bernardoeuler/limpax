@@ -13,6 +13,7 @@ import getSpecificDoc from "../../utils/getSpecificDoc"
 import uploadImage from "../../utils/uploadImage"
 import storeData from "../../utils/storeData"
 import { addDoc, collection } from "firebase/firestore"
+import { GOOGLE_MAPS_API_KEY } from "@env"
 
 function NewDenunciation() {
   const { colors } = theme
@@ -150,7 +151,7 @@ function NewDenunciation() {
             flex={1}
             resizeMode="cover" 
             alt="Mapa"
-            source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${coordinates.latitude},${coordinates.longitude}&zoom=12&size=600x600&key=AIzaSyDulUyQ88FKGdBfQSF4wrsf5f-J8GHXGIY` }}
+            source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${coordinates.latitude},${coordinates.longitude}&zoom=12&size=600x600&key=${GOOGLE_MAPS_API_KEY}` }}
             fallbackElement={<Loading color="neutral.100" />}
           >
           </Image> 
