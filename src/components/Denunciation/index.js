@@ -1,6 +1,7 @@
 import React from "react"
 import { Pressable, HStack, VStack, Box, Heading, Text, ThreeDotsIcon, IconButton, Menu } from "native-base"
 import toggleStatus from "../../utils/toggleStatus"
+import deleteDenunciation from "../../utils/deleteDenunciation"
 
 function Denunciation(props) {
   const { status, garbageType, date, id, onPress, mb } = props
@@ -30,6 +31,7 @@ function Denunciation(props) {
             }}
           >
             <Menu.Item onPress={() => toggleStatus(id)}>Marcar como { status === "pending" ? "Resolvida" : "Em andamento"}</Menu.Item>
+            <Menu.Item onPress={() => deleteDenunciation(id)}>Excluir</Menu.Item>
           </Menu>
         </HStack>
       </HStack>
