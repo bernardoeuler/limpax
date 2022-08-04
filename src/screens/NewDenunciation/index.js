@@ -43,19 +43,18 @@ function NewDenunciation() {
       if (status === "granted") {
         const { coords } = await Location.getCurrentPositionAsync()
         setCoordinates(coords)
+        console.log("Coordinates saved")
+        return coords
       }
     }
 
-    console.log("Coordinates saved")
   }
 
   async function handleSubmit() {
-    await getCurrentLocation()
-
     const authenticatedUserId = auth.currentUser.uid
     const usersRef = collection(firestore, "users")
     const denunciationData = {
-      coordinates,
+      coordinates: await getCurrentLocation(),
       garbageType,
       quantity,
       description,
