@@ -83,7 +83,7 @@ function NewDenunciation() {
         addDoc(imagesCollectionRef, { url: downloadUrl })
       })
       setIsBtnLoading(false)
-      Alert.alert("Denúncia enviada com sucesso!", "Abra a aba Minha denúncias para ver a denúncia que acabou de fazer.")
+      Alert.alert("Denúncia enviada com sucesso!", "Abra a aba Minha denúncias para ver a denúncia que acabou de fazer.", [{text: "OK", onPress: () => navigation.goBack()}])
       console.log("Images uploaded succesfully")
     }
 
