@@ -23,25 +23,30 @@ function DenunciationsList() {
   const activeDenunciations = denunciations.filter(({status}) => status === activeFilterButton)
 
   useEffect(() => {
-    const authenticatedUserId = auth.currentUser.uid
-    const usersRef = collection(firestore, "users")
+    const unsubscribe = navigation.addListener("focus", getDenunciations)
+    return unsubscribe
+  }, [navigation])
 
-    async function getDenunciations() {
-      const userDoc = await getSpecificDoc(usersRef, "userId", authenticatedUserId)
-      const denunciationsRef = collection(firestore, `users/${userDoc.documentId}/denunciations`)
-      const { docs: denunciationsDocs } = await getDocs(denunciationsRef)
-      const denunciationsArray = denunciationsDocs.map(doc => {
-        const data = doc.data()
-        return { ...data, date: parseTimestamp(data.timestamp), documentId: doc.id }
-      })
-      setDenunciations(denunciationsArray)
-      setIsLoading(false)
-
-      return denunciationsArray
-    }
-
+  useEffect(() => {
     getDenunciations()
   }, [activeFilterButton])
+
+  async function getDenunciations() {
+    console.log("get denunciations")
+    const authenticatedUserId = auth.currentUser.uid
+    const usersRef = collection(firestore, "users")
+    const userDoc = await getSpecificDoc(usersRef, "userId", authenticatedUserId)
+    const denunciationsRef = collection(firestore, `users/${userDoc.documentId}/denunciations`)
+    const { docs: denunciationsDocs } = await getDocs(denunciationsRef)
+    const denunciationsArray = denunciationsDocs.map(doc => {
+      const data = doc.data()
+      return { ...data, date: parseTimestamp(data.timestamp), documentId: doc.id }
+    })
+    setDenunciations(denunciationsArray)
+    setIsLoading(false)
+
+    return denunciationsArray
+  }
 
   function handleFilterChange(status) {
     setActiveFilterButton(status)
