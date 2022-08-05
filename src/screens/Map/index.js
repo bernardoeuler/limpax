@@ -81,14 +81,6 @@ function Map() {
               />
             )
           })}
-          <Marker
-            coordinate={{
-              latitude: 38.78825,
-              longitude: -122.4324,
-            }}
-            pinColor={colors.primary[500]}
-            onPress={(e) => {e.preventDefault(); console.log("clicked")}}
-          />
         </MapView> :
         <Loading color="neutral.100" />}
         <Button onPress={() => navigation.navigate("NewDenunciation")} position="absolute" bottom={6} right={6} h={20} borderRadius={99999} shadow={1} rightIcon={<AddIcon size={6} color="white" />}>
