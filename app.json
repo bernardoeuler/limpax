@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Limpax",
+    "name": "limpax",
     "slug": "limpax",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,22 +18,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.limpax"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      },
-      "package": "com.limpax"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "packagerOpts": {
-      "sourceExts": [ "js", "json", "ts", "tsx", "jsx", "vue"],
-      "config": "metro.config.js"
     }
   }
 }
