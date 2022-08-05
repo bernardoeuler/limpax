@@ -141,7 +141,7 @@ function NewDenunciation() {
       </Modal>
 
       <VStack w="100%" space={4} mt={6}>
-        <Text fontWeight="bold" color="neutral.700">Localização</Text>
+        <Text fontWeight="bold" color="neutral.700">Sua localização</Text>
 
         <Pressable
           bg="neutral.50"
