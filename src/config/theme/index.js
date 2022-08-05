@@ -72,15 +72,12 @@ const theme = extendTheme({
       600: "#5c5c5c",
       700: "#474747",
       800: "#333333",
-      900: "#1f1f1f",
-      translucent: "#fafafaaa"
+      900: "#1f1f1f"
     },
 
     black: "#000000",
 
-    white: "#ffffff",
-
-    lightBg: "#e9e9e9"
+    white: "#ffffff"
   },
 
   fontConfig: {
@@ -130,28 +127,22 @@ const theme = extendTheme({
 
       sizes: {
         h1: {
-          fontSize: 48,
-          lineHeight: 60
+          fontSize: 48
         },
         h2: {
-          fontSize: 40,
-          lineHeight: 50
+          fontSize: 40
         },
         h3: {
-          fontSize: 32,
-          lineHeight: 40
+          fontSize: 32
         },
         h4: {
-          fontSize: 28,
-          lineHeight: 35
+          fontSize: 28
         },
         h5: {
-          fontSize: 24,
-          lineHeight: 30
+          fontSize: 24
         },
         h6: {
-          fontSize: 20,
-          lineHeight: 25
+          fontSize: 20
         },
       },
     },
@@ -182,6 +173,7 @@ const theme = extendTheme({
           color: "white",
           fontWeight: "bold",
         },
+        
       },
 
       defaultProps: {
@@ -189,11 +181,6 @@ const theme = extendTheme({
         borderColor: "primary.500",
         borderRadius: 8,
         size: "large",
-
-        _text: {
-          color: "white",
-          fontWeight: "bold",
-        },
         
         _pressed: {
           bg: "primary.600",
@@ -211,141 +198,11 @@ const theme = extendTheme({
 
       sizes: {
         large: {
-          w: "100%",
           py: "20px",
           _text: {
             fontSize: 18
-          },
-          _spinner: {
-            size: 27,
-          }
-        },
-
-        medium: {
-          w: "100%",
-          py: "12px",
-          _text: {
-            fontSize: 16
-          },
-          _spinner: {
-            size: 24,
-          }
-        },
-
-        small: {
-          py: "8px",
-          _text: {
-            fontSize: 14
-          },
-          _spinner: {
-            size: 21,
           }
         }
-      }
-    },
-
-    FormControlLabel: {
-      defaultProps: {
-        fontSize: 14,
-
-        _light: {
-          _text: {
-            color: "neutral.600",
-            fontWeight: "semibold"
-          }
-        },
-
-        _dark: {
-          _text: {
-            color: "neutral.300",
-          }
-        },
-      },
-    },
-
-    FormControlErrorMessage: {
-      defaultProps: {
-        fontSize: 14,
-
-        _text: {
-          color: "danger.500",
-        }
-      },
-    },
-
-    Input: {
-      defaultProps: {
-        size: "normal",
-
-        borderWidth: 0,
-
-        rounded: 4,
-
-        _light: {
-          bg: "neutral.50",
-          color: "neutral.900",
-          placeholderTextColor: "neutral.500",
-          _focus: {
-            bg: "neutral.50"
-          }
-        },
-
-        _dark: {
-          bg: "neutral.800",
-          color: "white",
-          placeholderTextColor: "neutral.400",
-          _focus: {
-            bg: "neutral.800"
-          }
-        },
-      },
-
-      sizes: {
-        normal: {
-          fontSize: 16,
-          py: 3,
-          px: 4,
-        }
-      }
-    },
-
-    TextArea: {
-      defaultProps: {
-        size: "normal",
-        borderWidth: 0,
-        rounded: 4,
-
-        _light: {
-          bg: "neutral.50",
-          color: "neutral.900",
-          placeholderTextColor: "neutral.500",
-          _focus: {
-            bg: "neutral.50"
-          }
-        },
-
-        _dark: {
-          bg: "neutral.800",
-          color: "white",
-          placeholderTextColor: "neutral.400",
-          _focus: {
-            bg: "neutral.800"
-          }
-        },
-
-        sizes: {
-          normal: {
-            fontSize: 16,
-            py: 3,
-            px: 4,
-          }
-        }
-      }
-    },
-
-    Spinner: {
-      defaultProps: {
-        color: "neutral.50"
       }
     }
   }
