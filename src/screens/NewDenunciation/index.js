@@ -154,7 +154,7 @@ function NewDenunciation() {
           {
           coordinates ? 
           <MapView
-            style={{height: '100%', width: 600}}
+            style={{height: "100%", width: "100%"}}
             toolbarEnabled={false}
             zoomEnabled={false}
             zoomControlEnabled={false}
