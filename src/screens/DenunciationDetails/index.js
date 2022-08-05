@@ -1,35 +1,46 @@
 import React, { useState, useEffect } from "react"
 import { StatusBar, ScrollView, VStack, Pressable, Image, Heading, Text, FlatList, Center, Box } from "native-base"
-import { Dimensions } from "react-native"
+import Loading from "../../components/Loading"
 import styles from "../../styles/global"
 import theme from "../../config/theme"
 import getSpecificDoc from "../../utils/getSpecificDoc"
 import { auth, firestore } from "../../config/firebase"
-import { getDocs, collection } from "firebase/firestore"
+import { getDocs, collection, getDoc, doc } from "firebase/firestore"
+import { GOOGLE_MAPS_API_KEY } from "@env"
 
 function DenunciationDetails({ route }) {
   const { colors } = theme
   const { documentId: denunciationId, status, garbageType, quantity, description, date } = route.params
-  const imageFullWidth = Dimensions.get("window").width - styles.Container.paddingHorizontal * 2
   const statusText = status === "pending" ? "Em andamento" : "Resolvida"
   const [images, setImages] = useState([])
+  const [mapImageUri, setMapImageUri] = useState(null)
 
   useEffect(() => {
-    async function getImages() {
-      const authenticatedUserId = auth.currentUser.uid
-      const usersRef = collection(firestore, "users")
-      const userDoc = await getSpecificDoc(usersRef, "userId", authenticatedUserId)
+    (async () => {
+      const userDoc = await getUserData()
+
+      // Set images
       const imagesCollectionRef = collection(firestore, `users/${userDoc.documentId}/denunciations/${denunciationId}/images`)
       const { docs: imagesDocs } = await getDocs(imagesCollectionRef)
       const imagesArray = imagesDocs.map(doc => {
         return { ...doc.data(), documentId: doc.id }
       })
       setImages(imagesArray)
-    }
 
-    getImages()
+      // Set map image uri
+      const denunciationRef = doc(firestore, `users/${userDoc.documentId}/denunciations/${denunciationId}`)
+      const denunciationDoc = await getDoc(denunciationRef)
+      const coordinates = denunciationDoc.get("coordinates")
+      console.log(coordinates)
+      setMapImageUri(`https://maps.googleapis.com/maps/api/staticmap?center=${coordinates.latitude},${coordinates.longitude}&zoom=17&size=600x600&markers=${coordinates.latitude},${coordinates.longitude}&key=${GOOGLE_MAPS_API_KEY}`)
+    })()
   }, [])
 
+  async function getUserData() {
+    const authenticatedUserId = auth.currentUser.uid
+    const usersRef = collection(firestore, "users")
+    return await getSpecificDoc(usersRef, "userId", authenticatedUserId)
+  }
 
   return (
     <ScrollView style={styles.Container} showsVerticalScrollIndicator={false}>
@@ -38,8 +49,24 @@ function DenunciationDetails({ route }) {
       <VStack space={8} my={6}>
         <VStack space={3}>
           <Heading size="h6">Localização</Heading>
-          <Pressable bg="neutral.50" borderRadius={16} overflow="hidden">
-            <Image source={{uri: null}} width={imageFullWidth} height={200} resizeMode="cover" alt="Mapa" />
+          <Pressable
+          bg="neutral.50"
+          height={200}
+          borderRadius={8} 
+          overflow="hidden"
+          >
+            {
+            mapImageUri ? 
+            <Image
+              flex={1}
+              resizeMode="cover" 
+              alt="Mapa"
+              source={{ uri: mapImageUri }}
+              fallbackElement={<Loading color="neutral.100" />}
+            >
+            </Image> : 
+            <Loading color="neutral.100" />
+            }
           </Pressable>
         </VStack>
 
