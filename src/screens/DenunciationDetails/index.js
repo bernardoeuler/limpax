@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react"
 import { StatusBar, ScrollView, VStack, Pressable, Image, Heading, Text, FlatList, Center, Box } from "native-base"
+import MapView, { Marker } from "react-native-maps"
 import Loading from "../../components/Loading"
 import styles from "../../styles/global"
 import theme from "../../config/theme"
 import getSpecificDoc from "../../utils/getSpecificDoc"
 import { auth, firestore } from "../../config/firebase"
 import { getDocs, collection, getDoc, doc } from "firebase/firestore"
-import { GOOGLE_MAPS_API_KEY } from "@env"
 
 function DenunciationDetails({ route }) {
   const { colors } = theme
   const { documentId: denunciationId, status, garbageType, quantity, description, date } = route.params
   const statusText = status === "pending" ? "Em andamento" : "Resolvida"
+  const [coordinates, setCoordinates] = useState(null)
   const [images, setImages] = useState([])
-  const [mapImageUri, setMapImageUri] = useState(null)
 
   useEffect(() => {
     (async () => {
@@ -30,9 +30,8 @@ function DenunciationDetails({ route }) {
       // Set map image uri
       const denunciationRef = doc(firestore, `users/${userDoc.documentId}/denunciations/${denunciationId}`)
       const denunciationDoc = await getDoc(denunciationRef)
-      const coordinates = denunciationDoc.get("coordinates")
-      console.log(coordinates)
-      setMapImageUri(`https://maps.googleapis.com/maps/api/staticmap?center=${coordinates.latitude},${coordinates.longitude}&zoom=17&size=600x600&markers=${coordinates.latitude},${coordinates.longitude}&key=${GOOGLE_MAPS_API_KEY}`)
+      const coordsObj = denunciationDoc.get("coordinates")
+      setCoordinates(coordsObj)
     })()
   }, [])
 
@@ -50,23 +49,39 @@ function DenunciationDetails({ route }) {
         <VStack space={3}>
           <Heading size="h6">Localização</Heading>
           <Pressable
-          bg="neutral.50"
-          height={200}
-          borderRadius={8} 
-          overflow="hidden"
+            bg="neutral.50"
+            height={200}
+            borderRadius={8} 
+            overflow="hidden"
+            pointerEvents="none"
           >
             {
-            mapImageUri ? 
-            <Image
-              flex={1}
-              resizeMode="cover" 
-              alt="Mapa"
-              source={{ uri: mapImageUri }}
-              fallbackElement={<Loading color="neutral.100" />}
-            >
-            </Image> : 
-            <Loading color="neutral.100" />
-            }
+          coordinates ? 
+          <MapView
+            style={{height: "100%", width: "100%"}}
+            toolbarEnabled={false}
+            zoomEnabled={false}
+            zoomControlEnabled={false}
+            zoomTapEnabled={false}
+            rotateEnabled={false}
+            pitchEnabled={false}
+            loadingEnabled={false}
+            region={{
+              latitude: coordinates.latitude,
+              longitude: coordinates.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          >
+            <Marker
+              coordinate={{
+                latitude: coordinates.latitude,
+                longitude: coordinates.longitude
+              }}
+            />
+          </MapView> : 
+          <Loading color="neutral.100" />
+          }
           </Pressable>
         </VStack>
 

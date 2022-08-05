@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { ScrollView, StatusBar, Pressable, Image, Select, TextArea, VStack, Button, Modal, Text, CloseIcon, Box, Icon, Center, FlatList, IconButton } from "native-base"
 import { Alert, PermissionsAndroid } from "react-native"
+import MapView, { Marker } from "react-native-maps"
 import { useNavigation } from "@react-navigation/native"
 import { MaterialIcons } from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
@@ -22,7 +23,7 @@ function NewDenunciation() {
   const [isBtnLoading, setIsBtnLoading] = useState(false)
   const [hasLocationPermission, setHasLocationPermission] = useState(false)
 
-  const [coordinates, setCoordinates] = useState({})
+  const [coordinates, setCoordinates] = useState(null)
   const [garbageType, setGarbageType] = useState("")
   const [quantity, setQuantity] = useState("")
   const [description, setDescription] = useState("")
@@ -148,17 +149,33 @@ function NewDenunciation() {
           height={200}
           borderRadius={8} 
           overflow="hidden"
+          pointerEvents="none"
         >
           {
-          mapImageUri ? 
-          <Image
-            flex={1}
-            resizeMode="cover" 
-            alt="Mapa"
-            source={{ uri: mapImageUri }}
-            fallbackElement={<Loading color="neutral.100" />}
+          coordinates ? 
+          <MapView
+            style={{height: "100%", width: "100%"}}
+            toolbarEnabled={false}
+            zoomEnabled={false}
+            zoomControlEnabled={false}
+            zoomTapEnabled={false}
+            rotateEnabled={false}
+            pitchEnabled={false}
+            loadingEnabled={false}
+            region={{
+              latitude: coordinates.latitude,
+              longitude: coordinates.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
           >
-          </Image> : 
+            <Marker
+              coordinate={{
+                latitude: coordinates.latitude,
+                longitude: coordinates.longitude
+              }}
+            />
+          </MapView> : 
           <Loading color="neutral.100" />
           }
         </Pressable>
