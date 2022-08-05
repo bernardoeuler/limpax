@@ -4,12 +4,13 @@ import {
   Button,
   AddIcon
 } from "native-base"
-import { StyleSheet, Dimensions, SafeAreaView, PermissionsAndroid } from "react-native"
+import { StyleSheet, Dimensions, SafeAreaView, PermissionsAndroid, StatusBar } from "react-native"
 import MapView, { Marker } from "react-native-maps"
 import { useNavigation } from "@react-navigation/native"
 import * as Location from "expo-location"
 import listDocs from "../../utils/listDocs"
 import Loading from "../../components/Loading"
+import styles from "../../styles/global"
 
 function Map() {
   const { colors } = useTheme()
@@ -55,9 +56,11 @@ function Map() {
   }
 
   return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={{...styles.Container, ...localStyles.container}}>
         {coordinates ? <MapView
-          style={styles.map}
+          style={localStyles.map}
+          showsUserLocation
+          toolbarEnabled={false}
           initialRegion={{
             latitude: coordinates.latitude,
             longitude: coordinates.longitude,
@@ -88,8 +91,8 @@ function Map() {
           />
         </MapView> :
         <Loading color="neutral.100" />}
-        <Button onPress={() => navigation.navigate("NewDenunciation")} position="absolute" bottom={6} right={6} w={20} h={20} borderRadius={99999} shadow={1}>
-          <AddIcon size={8} color="white" />
+        <Button onPress={() => navigation.navigate("NewDenunciation")} position="absolute" bottom={6} right={6} h={20} borderRadius={99999} shadow={1} rightIcon={<AddIcon size={6} color="white" />}>
+          Nova denúncia
         </Button>
       </SafeAreaView>
   )
@@ -97,7 +100,7 @@ function Map() {
 
 export default Map
 
-const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -106,6 +109,6 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height - 56,
   },
 });
