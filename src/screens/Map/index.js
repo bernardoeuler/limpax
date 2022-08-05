@@ -68,7 +68,7 @@ function Map() {
             longitudeDelta: 0.0421,
           }}
         >
-          {denunciations.map(({coordinates: c}, index) => {
+          {denunciations.map(({coordinates: c, status}, index) => {
             return (
               <Marker
                 key={index}
@@ -76,7 +76,7 @@ function Map() {
                   latitude: c.latitude,
                   longitude: c.longitude
                 }}
-                pinColor={colors.primary[500]}
+                pinColor={status === "pending" ? colors.warning[500] : colors.primary[500]}
                 onPress={(e) => {e.preventDefault(); console.log("clicked")}}
               />
             )
