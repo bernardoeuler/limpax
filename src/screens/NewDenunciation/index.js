@@ -27,6 +27,7 @@ function NewDenunciation() {
   const [quantity, setQuantity] = useState("")
   const [description, setDescription] = useState("")
   const [images, setImages] = useState([])
+  const [mapImageUri, setMapImageUri] = useState(null)
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", getCurrentLocation)
@@ -39,11 +40,12 @@ function NewDenunciation() {
 
     setHasLocationPermission(await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION))
 
-    if (hasLocationPermission) {
+    if (!hasLocationPermission) {
       const { status } = await Location.requestForegroundPermissionsAsync()
       if (status === "granted") {
         const { coords } = await Location.getCurrentPositionAsync()
         setCoordinates(coords)
+        setMapImageUri(`https://maps.googleapis.com/maps/api/staticmap?center=${coords.latitude},${coords.longitude}&zoom=17&size=600x600&markers=${coords.latitude},${coords.longitude}&key=${GOOGLE_MAPS_API_KEY}`)
         console.log("Coordinates saved")
         return coords
       }
@@ -55,7 +57,7 @@ function NewDenunciation() {
     const authenticatedUserId = auth.currentUser.uid
     const usersRef = collection(firestore, "users")
     const denunciationData = {
-      coordinates: await getCurrentLocation(),
+      coordinates,
       garbageType,
       quantity,
       description,
@@ -147,14 +149,18 @@ function NewDenunciation() {
           borderRadius={8} 
           overflow="hidden"
         >
+          {
+          mapImageUri ? 
           <Image
             flex={1}
             resizeMode="cover" 
             alt="Mapa"
-            source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${coordinates.latitude},${coordinates.longitude}&zoom=12&size=600x600&key=${GOOGLE_MAPS_API_KEY}` }}
+            source={{ uri: mapImageUri }}
             fallbackElement={<Loading color="neutral.100" />}
           >
-          </Image>
+          </Image> : 
+          <Loading color="neutral.100" />
+          }
         </Pressable>
 
         <Text mt={4} fontWeight="bold" color="neutral.700">Tipo de lixo</Text>
