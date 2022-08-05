@@ -43,13 +43,18 @@ function DenunciationsList() {
     getDenunciations()
   }, [activeFilterButton])
 
+  function handleFilterChange(status) {
+    setActiveFilterButton(status)
+    setIsLoading(true)
+  }
+
   return (
     <SafeAreaView style={{...styles.Container, backgroundColor: colors.lightBg, paddingHorizontal: 0}}>
       <StatusBar barStyle="light-content" backgroundColor={colors.primary[500]} />
 
       <FilterGroup mt={6} px={6}>
-        <FilterButton onPress={() => setActiveFilterButton("pending")} title="Em andamento" colorScheme="warning" isActive={activeFilterButton === "pending"} />
-        <FilterButton onPress={() => setActiveFilterButton("resolved")} title="Resolvidas" colorScheme="success" isActive={activeFilterButton === "resolved"} />
+        <FilterButton onPress={() => handleFilterChange("pending")} title="Em andamento" colorScheme="warning" isActive={activeFilterButton === "pending"} />
+        <FilterButton onPress={() => handleFilterChange("resolved")} title="Resolvidas" colorScheme="success" isActive={activeFilterButton === "resolved"} />
       </FilterGroup>
 
       { isLoading ? <Loading color="neutral.100" /> :
@@ -64,6 +69,8 @@ function DenunciationsList() {
               status={item.status}
               garbageType={item.garbageType}
               date={item.date}
+              key={item.documentId}
+              id={item.documentId}
             />
           )}
           ItemSeparatorComponent={() => <Box h={4} />}
