@@ -29,7 +29,6 @@ function Map() {
     return unsubscribe
   }, [navigation])
 
-
   async function getCurrentLocation() {
     console.log("Getting coordinates...")
 
@@ -55,6 +54,11 @@ function Map() {
     })
   }
 
+  function openDetails(event, denunciation) {
+    event.preventDefault()
+    navigation.navigate("DenunciationDetails", denunciation)
+  }
+
   return (
       <SafeAreaView style={{...styles.Container, ...localStyles.container}}>
         {coordinates ? <MapView
@@ -68,7 +72,8 @@ function Map() {
             longitudeDelta: 0.0421,
           }}
         >
-          {denunciations.map(({coordinates: c, status}, index) => {
+          {denunciations.map((denunciation, index) => {
+            const { coordinates: c, status } = denunciation
             return (
               <Marker
                 key={index}
@@ -77,7 +82,7 @@ function Map() {
                   longitude: c.longitude
                 }}
                 pinColor={status === "pending" ? colors.warning[500] : colors.primary[500]}
-                onPress={(e) => {e.preventDefault(); console.log("clicked")}}
+                onPress={(e) => openDetails(e, denunciation)}
               />
             )
           })}
