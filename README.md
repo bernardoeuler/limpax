@@ -27,7 +27,7 @@ Essas notificações seriam vistas pela prefeitura da cidade ou a empresa conces
 Pode falar comigo por:
 - Email: bernardoeulersantos@gmail.com
 - LinkedIn: [in/bernardoeuler](https://www.linkedin.com/in/bernardoeuler)
-- Discord: [bernardoeuler_](https://discord.com/users/367741578808393729)
+- Discord: [bernardoeuler](https://discord.com/users/367741578808393729)
 
 ## Obrigado!
 
