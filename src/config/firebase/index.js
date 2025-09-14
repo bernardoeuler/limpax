@@ -3,14 +3,24 @@ import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 import { getStorage } from "firebase/storage"
 
+import { 
+  API_KEY, 
+  AUTH_DOMAIN, 
+  PROJECT_ID, 
+  STORAGE_BUCKET, 
+  MESSAGING_SENDER_ID, 
+  APP_ID,
+  MEASUREMENT_ID
+} from "@env"
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDwMk8Q_t2J8tlyH-qA8brUT0cIqFVbM0Q",
-  authDomain: "limpax.firebaseapp.com",
-  projectId: "limpax",
-  storageBucket: "gs://limpax.appspot.com",
-  messagingSenderId: "686174110739",
-  appId: "1:686174110739:web:8fbb2cbabbc0847d8e2be6",
-  measurementId: "G-0CSYCVNB62"
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID
 }
 
 let firebaseApp
